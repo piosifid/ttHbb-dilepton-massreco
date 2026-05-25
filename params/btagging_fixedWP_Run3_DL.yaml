@@ -1,0 +1,313 @@
+# B-tagging algorithms and working points
+
+systematic_variations:
+  weight_variations:
+    sf_btag:
+      "2024":
+        - hf
+        - lf
+        - hfstats1
+        - hfstats2
+        - lfstats1
+        - lfstats2
+        - cferr1
+        - cferr2
+    sf_btag_fixed_wp:
+      "2016_PreVFP":
+        sf_collection_to_use: "comb"
+        light_flavor_name: "incl"
+        comb: 
+          - isr
+          - fsr
+          - hdamp
+          - jes
+          - jer
+          - pileup
+          - qcdscale
+          - statistic
+          - topmass
+          - type3
+        mujets:
+          - jes
+          - pileup
+          - statistic
+          - type3
+        incl:
+          - correlated
+          - uncorrelated
+        btag_variations: 
+          - isr 
+          - fsr 
+          - hdamp 
+          - jes 
+          - jer 
+          - pileup 
+          - qcdscale 
+          - statistic 
+          - topmass 
+          - type3 
+          - lightFlavor_correlated 
+          - lightFlavor_uncorrelated
+      '2016_PostVFP': "${.2016_PreVFP}"
+      '2017': "${.2016_PreVFP}"
+      '2018': "${.2016_PreVFP}"
+      '2022_preEE':
+        sf_collection_to_use: "comb"
+        light_flavor_name: "light"
+        comb: 
+          - bfragmentation
+          - colorreconnection
+          - hdamp
+          - jer
+          - jes
+          - pdf
+          - pileup
+          - statistic
+          - topmass
+          - type3
+        mujets:
+          - bfragmentation
+          - jes
+          - pileup
+          - statistic
+          - type3
+        light:
+          - 
+        btag_variations: 
+          - bfragmentation 
+          - colorreconnection 
+          - hdamp 
+          - jer 
+          - jes 
+          - pdf 
+          - pileup 
+          - statistic 
+          - topmass 
+          - type3 
+          - lightFlavor
+      '2022_postEE': "${.2022_preEE}"
+      '2023_preBPix': "${.2022_preEE}"
+      '2023_postBPix': "${.2022_preEE}"
+      '2024':
+        sf_collection_to_use: "comb"
+        light_flavor_name: "light"
+        comb: # heavy flav jets
+          - bfragmentation
+          #- colorreconnection
+          - hdamp
+          - jer
+          - jes
+          - isrdef
+          - fsrdef
+          - muf
+          - mur
+          - pdfas
+          - pileup
+          - statistic
+          - topmass
+          - type3
+        mujets:
+          - bfragmentation
+          #- jes
+          - pileup
+          - statistic
+          - type3
+        light:
+          - correlated
+          - uncorrelated
+        btag_variations: 
+          - bfragmentation
+          #- colorreconnection
+          - hdamp
+          - jer
+          - jes
+          - isrdef
+          - fsrdef
+          - muf
+          - mur
+          - pdfas
+          - pileup
+          - statistic
+          - topmass
+          - type3 
+          #- lightFlavor
+
+jet_scale_factors:
+  btagSF:
+    '2022_preEE':
+      file: ${cvmfs:Run3-22CDSep23-Summer22-NanoAODv12,BTV,btagging.json.gz}
+      name: "robustParticleTransformer_shape"
+      btagEfficiencyFile: 
+        btagDeepFlavB: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/btag_efficiencies_btagDeepFlavB_2022_preEEXXX.json"
+        btagPNetB: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/btag_efficiencies_btagPNetB_2022_preEEXXX.json"
+        btagRobustParTAK4B: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/btag_efficiencies_robustParticleTransformer_2022_preEE_251125.json"
+      fixed_wp_name_map:
+        btagDeepFlavB: "deepJet"
+        btagPNetB: "particleNet"
+        btagRobustParTAK4B: "robustParticleTransformer"
+    '2022_postEE':
+      file: ${cvmfs:Run3-22EFGSep23-Summer22EE-NanoAODv12,BTV,btagging.json.gz}
+      name: "robustParticleTransformer_shape"
+      btagEfficiencyFile: 
+        btagDeepFlavB: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/btag_efficiencies_btagDeepFlavB_2022_postEE.json"
+        btagPNetB: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/btag_efficiencies_btagPNetB_2022_postEE.json"
+        btagRobustParTAK4B: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/btag_efficiencies_robustParticleTransformer_2022_postEE_251125.json"
+      fixed_wp_name_map:
+        btagDeepFlavB: "deepJet"
+        btagPNetB: "particleNet"
+        btagRobustParTAK4B: "robustParticleTransformer"
+    '2023_preBPix':
+        file: ${cvmfs:Run3-23CSep23-Summer23-NanoAODv12,BTV,btagging.json.gz}
+        name: "robustParticleTransformer_shape"
+        btagEfficiencyFile:
+          btagDeepFlavB: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/???"
+          btagPNetB: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/???"
+          btagRobustParTAK4B: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/btag_efficiencies_robustParticleTransformer_2023_preBPix_150226.json"
+        fixed_wp_name_map:
+          btagDeepFlavB: "deepJet"
+          btagPNetB: "particleNet"
+          btagRobustParTAK4B: "robustParticleTransformer"
+    '2023_postBPix':
+        file: ${cvmfs:Run3-23DSep23-Summer23BPix-NanoAODv12,BTV,btagging.json.gz}
+        name: "robustParticleTransformer_shape"
+        btagEfficiencyFile:
+          btagDeepFlavB: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/???"
+          btagPNetB: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/???"
+          btagRobustParTAK4B: "${config_dir:}/params/Btag_Efficiencies_DL_Run3/btag_efficiencies_robustParticleTransformer_2023_postBPix_150226.json"
+        fixed_wp_name_map:
+          btagDeepFlavB: "deepJet"
+          btagPNetB: "particleNet"
+          btagRobustParTAK4B: "robustParticleTransformer"
+    '2024':
+        file: ${cvmfs:Run3-24CDEReprocessingFGHIPrompt-Summer24-NanoAODv15,BTV,btagging.json.gz}
+        name: "UParTAK4"
+        btagEfficiencyFile:
+          btagUParTAK4B: "/eos/home-z/zpainesi/Final_DNN/Final1/oldDNN_2024/params/Btag_Efficiencies_DL_Run3/btag_efficiencies_UParTAK4_2024_160126.json"
+        fixed_wp_name_map:
+          btagUParTAK4B: "UParTAK4"
+
+btagging:
+  working_point:
+    '2022_preEE':
+      btagging_algorithm: btagRobustParTAK4B
+      btagging_WP:
+        L: 0.0849
+        M: 0.4319
+        T: 0.8482
+        XT: 0.9151
+        XXT: 0.9874
+      other_btagging_WPs:
+        btagDeepFlavB:
+          L: 0.0583
+          M: 0.3086
+          T: 0.7183
+          XT: 0.8111
+          XXT: 0.9512
+        btagPNetB:
+          L: 0.047
+          M: 0.245
+          T: 0.6734
+          XT: 0.7862
+          XXT: 0.961
+        btagRobustParTAK4B:
+          L: 0.0849
+          M: 0.4319
+          T: 0.8482
+          XT: 0.9151
+          XXT: 0.9874
+    '2022_postEE':
+      btagging_algorithm: btagRobustParTAK4B
+      btagging_WP:
+        L: 0.0897
+        M: 0.451
+        T: 0.8604
+        XT: 0.9234
+        XXT: 0.9893
+      other_btagging_WPs:
+        btagDeepFlavB:
+          L: 0.0614
+          M: 0.3196
+          T: 0.7300
+          XT: 0.8184
+          XXT: 0.9542
+        btagPNetB:
+          L: 0.0499
+          M: 0.2605
+          T: 0.6915
+          XT: 0.8033
+          XXT: 0.9664
+        btagRobustParTAK4B:
+          L: 0.0897
+          M: 0.451
+          T: 0.8604
+          XT: 0.9234
+          XXT: 0.9893
+    '2023_preBPix':
+      btagging_algorithm: btagRobustParTAK4B
+      btagging_WP:
+        L: 0.0681
+        M: 0.3487
+        T: 0.7969
+        XT: 0.8882
+        XXT: 0.9883
+      other_btagging_WPs:
+        btagDeepFlavB:
+          L: 0.0479
+          M: 0.2431
+          T: 0.6553
+          XT: 0.7667
+          XXT: 0.9459
+        btagPNetB:
+          L: 0.0358
+          M: 0.1917
+          T: 0.6172
+          XT: 0.7515
+          XXT: 0.9659
+        btagRobustParTAK4B:
+          L: 0.0681
+          M: 0.3487
+          T: 0.7969
+          XT: 0.8882
+          XXT: 0.9883
+    '2023_postBPix':
+      btagging_algorithm: btagRobustParTAK4B
+      btagging_WP:
+        L: 0.0683
+        M: 0.3494
+        T: 0.7994
+        XT: 0.8877
+        XXT: 0.9883
+      other_btagging_WPs:
+        btagDeepFlavB:
+          L: 0.048
+          M: 0.2435
+          T: 0.6563
+          XT: 0.7671
+          XXT: 0.9483
+        btagPNetB:
+          L: 0.0359
+          M: 0.1919
+          T: 0.6133
+          XT: 0.7544
+          XXT: 0.9688
+        btagRobustParTAK4B:
+          L: 0.0683
+          M: 0.3494
+          T: 0.7994
+          XT: 0.8877
+          XXT: 0.9883
+    '2024':
+      btagging_algorithm: btagUParTAK4B
+      btagging_WP:
+        L: 0.0246
+        M: 0.1272
+        T: 0.4648
+        XT: 0.6298
+        XXT: 0.9739
+      other_btagging_WPs:
+        btagUParTAK4B:
+          L: 0.0246
+          M: 0.1272
+          T: 0.4648
+          XT: 0.6298
+          XXT: 0.9739

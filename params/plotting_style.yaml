@@ -1,0 +1,2376 @@
+fontsize: 20
+topology:
+  mode: rms 
+plotting_style:
+  correlation:
+    "2024":
+      DoubleEle_pass: 0.99092
+      DoubleMu_pass: 0.99868
+      EleMu_pass: 0.99027
+  parameters_eff:
+    2023_postBPix:
+      EleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+      DoubleEle_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+      DoubleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+    "2024":
+      EleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+      DoubleEle_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+      DoubleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_etaSC:
+          ylim:
+          - 0
+          - 1
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0
+          - 1
+        ht:
+          ylim:
+          - 0
+          - 1
+  parameters_sf:
+    2023_postBPix:
+      EleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+    "2024":
+      EleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleEle_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      EleMu_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+      DoubleMu_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.85
+          - 1
+        ElectronGood_eta:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_etaSC:
+          ylim:
+          - 0.8
+          - 1.2
+        ElectronGood_phi:
+          ylim:
+          - 0
+          - 1
+        nJets:
+          ylim:
+          - 0.5
+          - 1.1
+        ht:
+          ylim:
+          - 0.5
+          - 1.1
+  parameters_ratio:
+    2023_postBPix:
+      EleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+    "2024":
+      EleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleEle_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      EleMu_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_metHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_metLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_njetsHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_njetsLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_npvHigh_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+      DoubleMu_npvLow_pass:
+        ElectronGood_pt:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_eta:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_etaSC:
+          ylim:
+          - 0.95
+          - 1.05
+        ElectronGood_phi:
+          ylim:
+          - 0.95
+          - 1.05
+        nJets:
+          ylim:
+          - 0.7
+          - 1.3
+        ht:
+          ylim:
+          - 0.7
+          - 1.3
+  opts_eff:
+    figure:
+      dpi: 200
+      fontsize_map: 14
+  opts_mc:
+    flow: none
+  opts_sf:
+    figure:
+      dpi: 200
+      fontsize_map: 14
+  opts_map:
+    figure:
+      dpi: 300
+    patch_opts:
+      EleMu_pass:
+        label: EleMu
+      EleMu_MuonLeading_pass:
+        label: "EleMu (\u03BC leading)"
+      EleMu_EleLeading_pass:
+        label: EleMu (e leading)
+      DoubleMu_pass:
+        label: DoubleMu
+      DoubleEle_pass:
+        label: DoubleEle
+      Ele32_EleHT_pass:
+        label: Ele32 + HT
+      Ele32_EleHT_pass_lowHT:
+        label: Ele32 + HT (low HT)
+      Ele32_EleHT_pass_highHT:
+        label: Ele32 + HT (high HT)
+      data:
+        label: Data
+        vmin: 0.0
+        vmax: 1.0
+      mc:
+        label: MC
+        vmin: 0.0
+        vmax: 1.0
+      sf:
+        label: (mm)
+        vmin: 0.5
+        vmax: 1.5
+      unc_data:
+        label: Stat. Unc. (Data)
+        vmin: 0.0
+        vmax: 0.5
+      unc_mc:
+        label: Stat. Unc. (MC)
+        vmin: 0.0
+        vmax: 0.5
+      unc_sf:
+        label: Stat. Unc. (SF)
+        vmin: 0.0
+        vmax: 0.5
+      unc_rel_data:
+        label: Rel. Stat. Unc. (Data)
+        vmin: 0.0
+        vmax: 1.0
+      unc_rel_mc:
+        label: Rel. Stat. Unc. (MC)
+        vmin: 0.0
+        vmax: 1.0
+      unc_rel_sf:
+        label: Rel. Stat. Unc. (SF)
+        vmin: 0.0
+        vmax: 1.0
+      ratio_sf:
+        label: Var / Nom (SF)
+        vmin: 0.7
+        vmax: 1.3
+      DoubleEle_metHigh_pass:
+        label: DoubleEle metHigh
+      DoubleEle_metLow_pass:
+        label: DoubleEle metLow
+      DoubleEle_njetsHigh_pass:
+        label: DoubleEle njetsHigh
+      DoubleEle_njetsLow_pass:
+        label: DoubleEle njetsLow
+      DoubleEle_npvHigh_pass:
+        label: DoubleEle npvHigh
+      DoubleEle_npvLow_pass:
+        label: DoubleEle npvLow
+      EleMu_metHigh_pass:
+        label: EleMu metHigh
+      EleMu_metLow_pass:
+        label: EleMu metLow
+      EleMu_njetsHigh_pass:
+        label: EleMu njetsHigh
+      EleMu_njetsLow_pass:
+        label: EleMu njetsLow
+      EleMu_npvHigh_pass:
+        label: EleMu npvHigh
+      EleMu_npvLow_pass:
+        label: EleMu npvLow
+      DoubleMu_metHigh_pass:
+        label: DoubleMu metHigh
+      DoubleMu_metLow_pass:
+        label: DoubleMu metLow
+      DoubleMu_njetsHigh_pass:
+        label: DoubleMu njetsHigh
+      DoubleMu_njetsLow_pass:
+        label: DoubleMu njetsLow
+      DoubleMu_npvHigh_pass:
+        label: DoubleMu npvHigh
+      DoubleMu_npvLow_pass:
+        label: DoubleMu npvLow
+  categorical_axes_data:
+    era: eras

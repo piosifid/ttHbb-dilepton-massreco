@@ -1,0 +1,47 @@
+
+lepton_scale_factors:
+  ####################################################################################################
+  electron_sf:
+    apply_ele_scale_and_smearing: 
+      '2016_PreVFP': False
+      '2016_PostVFP': False
+      '2017': False
+      '2018': False
+      '2022_preEE': True
+      '2022_postEE': True
+      '2023_preBPix': True
+      '2023_postBPix': True
+
+  muon_sf:
+    sf_name:
+      '2022_preEE':
+          id: NUM_TightID_DEN_TrackerMuons
+          iso: NUM_TightPFIso_DEN_TightID
+          # trigger: NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight
+
+      '2022_postEE':
+          id: NUM_TightID_DEN_TrackerMuons
+          iso: NUM_TightPFIso_DEN_TightID
+          # trigger: NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight
+
+      '2023_preBPix':
+          id: NUM_TightID_DEN_TrackerMuons
+          iso: NUM_TightPFIso_DEN_TightID
+          
+      '2023_postBPix':
+          id: NUM_TightID_DEN_TrackerMuons
+          iso: NUM_TightPFIso_DEN_TightID
+  
+  trigger_sf_DL:
+    name: sf_trigger_DL ##SF_Nominal_2D_Pt
+    JSONfiles:
+      '2022_preEE':
+        file: "/eos/user/p/piosifid/PocketCoffea/ANN_newCoffea/Parquet_extraction_new/params/newTriggersPoly/sf_trigger_DL_2022_preEE_101025.json"
+      '2022_postEE':
+        file: "/eos/user/p/piosifid/PocketCoffea/ANN_newCoffea/Parquet_extraction_new/params//newTriggersPoly/sf_trigger_DL_2022_postEE_101025.json" 
+      '2023_preBPix':
+        file: "/eos/user/p/piosifid/PocketCoffea/ANN_newCoffea/Parquet_extraction_new/params//newTriggersPoly/sf_trigger_DL_2023_preBPix_061125.json"
+      '2023_postBPix':
+        file: "/eos/user/p/piosifid/PocketCoffea/ANN_newCoffea/Parquet_extraction_new/params//newTriggersPoly/sf_trigger_DL_2023_postBPix_061125.json"
+      '2024':
+        file: "/eos/user/p/piosifid/PocketCoffea/ANN_newCoffea/CLEAN_24_070526/params/newTriggersPoly/sf_trigger_DL_2024_var.json"

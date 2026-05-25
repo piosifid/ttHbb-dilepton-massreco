@@ -1,0 +1,47 @@
+btagSF_calibration:
+  2016_PreVFP:
+    name: btagSF_norm_correction
+    file: "${config_dir:}/sf_computation/btagSF_calibrationSF_2016_PostVFP.json"
+  2016_PostVFP:
+    name: btagSF_norm_correction
+    file: "${config_dir:}/sf_computation/btagSF_calibrationSF_2016_PreVFP.json"
+  '2017':
+    name: btagSF_norm_correction
+    file: "${config_dir:}/sf_computation/btagSF_calibrationSF_2017.json"
+  '2018':
+    name: btagSF_norm_correction
+    file: "${config_dir:}/sf_computation/btagSF_calibrationSF_2018.json"
+
+btagSF_calibration_ttsplit:
+  2016_PreVFP:
+    name: btagSF_norm_correction
+    file: "${config_dir:}/sf_computation/ttbarsplit/btagSF_calibrationSF_2016_PostVFP.json"
+  2016_PostVFP:
+    name: btagSF_norm_correction
+    file: "${config_dir:}/sf_computation/ttbarsplit/btagSF_calibrationSF_2016_PreVFP.json"
+  '2017':
+    name: btagSF_norm_correction
+    file: "${config_dir:}/sf_computation/ttbarsplit/btagSF_calibrationSF_2017.json"
+  '2018':
+    name: btagSF_norm_correction
+    file: "${config_dir:}/sf_computation/ttbarsplit/btagSF_calibrationSF_2018.json"
+  '2022_preEE':
+    name: btagSF_norm_correction
+    fileFixedWp: "${config_dir:}/params/sf_computation/ttbarsplit/btagSF_calibrationSF__fixedWp_2022_preEE_251125.json"
+    fileShape: "${config_dir:}/params/sf_computation/ttbarsplit/btagSF_calibrationSF__shape_2022_preEE_251125.json"
+  '2022_postEE':
+    name: btagSF_norm_correction
+    fileFixedWp: "${config_dir:}/params/sf_computation/ttbarsplit/btagSF_calibrationSF__shape_2022_postEE_251125.json"
+    fileShape: "${config_dir:}/params/sf_computation/ttbarsplit/btagSF_calibrationSF__shape_2022_postEE_251125.json"
+  '2023_preBPix':
+    name: btagSF_norm_correction
+    fileFixedWp: "/eos/user/z/zpainesi/Final_DNN/INF_DNN_TRF_maps/params/sf_computation/ttbarsplit/btagSF_calibrationSF__fixedWp_2023_preBPix_150226.json"
+    fileShape: "/eos/user/z/zpainesi/Final_DNN/INF_DNN_TRF_maps/params/sf_computation/ttbarsplit/btagSF_calibrationSF__shape_2023_preBPix_150226.json"
+  '2023_postBPix':
+    name: btagSF_norm_correction
+    fileFixedWp: "/eos/user/z/zpainesi/Final_DNN/INF_DNN_TRF_maps/params/sf_computation/ttbarsplit/btagSF_calibrationSF__fixedWp_2023_postBPix_150226.json"
+    fileShape: "/eos/user/z/zpainesi/Final_DNN/INF_DNN_TRF_maps/params/sf_computation/ttbarsplit/btagSF_calibrationSF__shape_2023_postBPix_150226.json"
+  '2024':
+    name: btagSF_norm_correction
+    fileFixedWp: "/eos/user/p/piosifid/PocketCoffea/ANN_newCoffea/CLEAN_24_070526/params/sf_computation/ttbarsplit/btagSF_calibrationSF__fixedWp_2024_140126.json"
+    fileShape: "/eos/user/z/zpainesi/Final_DNN/INF_DNN_TRF_maps/params/sf_computation/ttbarsplit/btagSF_calibrationSF__shape_2024_XXXX.json"

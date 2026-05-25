@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Data and output files
+*.root
+*.coffea
+*.pkl
+*.h5
+*.keras
+*.png
+*.pdf
+*.jpg
+
+# Output directories from runs
+22May_*/
+data_oldcode/
+test/
+test_new_code/
+test_newway/
+test_oldway/
+
+# OS
+.DS_Store
+mass_reco_functions_new.py
+mass_reco_functions_old.py
+.sys.v#*/
+.sys.v#*

@@ -1,0 +1,244 @@
+{    
+    "DATA_EGamma": {
+        "sample": "DATA_EGamma",
+        "json_output": "Run3_DATA_2024.json",
+        "files": [
+            {
+                "das_names": [
+                    "/EGamma0/Run2024C-MINIv6NANOv15-v1/NANOAOD",
+                    "/EGamma1/Run2024C-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "C"
+                }
+            },
+            {
+                "das_names": [
+                    "/EGamma0/Run2024D-MINIv6NANOv15-v1/NANOAOD",
+                    "/EGamma1/Run2024D-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "D"
+                }
+            },
+            {
+                "das_names": [
+                    "/EGamma0/Run2024E-MINIv6NANOv15-v1/NANOAOD",
+                    "/EGamma1/Run2024E-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "E"
+                }
+            },
+            {
+                "das_names": [
+                    "/EGamma0/Run2024F-MINIv6NANOv15-v1/NANOAOD",
+                    "/EGamma1/Run2024F-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "F"
+                }
+            },
+            {
+                "das_names": [
+                    "/EGamma0/Run2024G-MINIv6NANOv15-v2/NANOAOD",
+                    "/EGamma1/Run2024G-MINIv6NANOv15-v2/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "G"
+                }
+            },
+            {
+                "das_names": [
+                    "/EGamma0/Run2024H-MINIv6NANOv15-v2/NANOAOD", 
+                    "/EGamma1/Run2024H-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "H"
+                }
+            },
+            {
+                "das_names": [
+                    "/EGamma0/Run2024I-MINIv6NANOv15-v1/NANOAOD", 
+                    "/EGamma1/Run2024I-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "I"
+                }
+            }
+	    ]
+    },
+    "DATA_Muon": {
+        "sample": "DATA_Muon",
+        "json_output": "Run3_DATA_2024.json",
+        "files": [
+            {
+                "das_names": [
+                    "/Muon0/Run2024C-MINIv6NANOv15-v1/NANOAOD",
+                    "/Muon1/Run2024C-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "C"
+                }
+            },
+            {
+                "das_names": [
+                    "/Muon0/Run2024D-MINIv6NANOv15-v1/NANOAOD",
+                    "/Muon1/Run2024D-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "D"
+                }
+            },
+            {
+                "das_names": [
+                    "/Muon0/Run2024E-MINIv6NANOv15-v1/NANOAOD",
+                    "/Muon1/Run2024E-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "E"
+                }
+            },
+            {
+                "das_names": [
+                    "/Muon0/Run2024F-MINIv6NANOv15-v1/NANOAOD",
+                    "/Muon1/Run2024F-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "F"
+                }
+            },
+            {
+                "das_names": [
+                    "/Muon0/Run2024G-MINIv6NANOv15-v1/NANOAOD",
+                    "/Muon1/Run2024G-MINIv6NANOv15-v2/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "G"
+                }
+            },
+            {
+                "das_names": [
+                    "/Muon0/Run2024H-MINIv6NANOv15-v1/NANOAOD", 
+                    "/Muon1/Run2024H-MINIv6NANOv15-v2/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "H"
+                }
+            },
+            {
+                "das_names": [
+                    "/Muon0/Run2024I-MINIv6NANOv15-v1/NANOAOD", 
+                    "/Muon1/Run2024I-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "I"
+                }
+            }
+	    ]
+    },
+    "DATA_MuonEG": {
+        "sample": "DATA_MuonEG",
+        "json_output": "Run3_DATA_2024.json",
+        "files": [
+            {
+                "das_names": [
+                    "/MuonEG/Run2024C-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "C"
+                }
+            },
+            {
+                "das_names": [
+                    "/MuonEG/Run2024D-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "D"
+                }
+            },
+            {
+                "das_names": [
+                    "/MuonEG/Run2024E-MINIv6NANOv15-v1/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "E"
+                }
+            },
+            {
+                "das_names": [
+                    "/MuonEG/Run2024F-MINIv6NANOv15-v2/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "F"
+                }
+            },
+            {
+                "das_names": [
+                    "/MuonEG/Run2024G-MINIv6NANOv15-v3/NANOAOD"
+                ],
+                "metadata": {
+                    "year": "2024",
+                    "isMC": false,
+                    "era": "G"
+                }
+            },
+			{
+				"das_names": [
+                    "/MuonEG/Run2024H-MINIv6NANOv15-v2/NANOAOD"
+				],
+				"metadata": {
+					"year": "2024",
+					"isMC": false,
+					"era": "H"
+				}
+			},
+			{
+				"das_names": [
+                    "/MuonEG/Run2024I-MINIv6NANOv15-v2/NANOAOD"
+				],
+				"metadata": {
+					"year": "2024",
+					"isMC": false,
+					"era": "I"
+				}
+			}
+		]
+    }
+}

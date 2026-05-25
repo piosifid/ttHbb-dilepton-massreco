@@ -1,0 +1,410 @@
+{
+  "schema_version": 2,
+  "corrections": [
+    {
+      "name": "sf_trigger_DL",
+      "description": "DL trigger SF nominal; flavor-routed (0=ee,1=emu,2=mumu); hist=lepton_pt_both_2024; year=2024",
+      "version": 1,
+      "inputs": [
+        {
+          "name": "lep_flav",
+          "type": "int"
+        },
+        {
+          "name": "pt_leading",
+          "type": "real"
+        },
+        {
+          "name": "pt_trailing",
+          "type": "real"
+        }
+      ],
+      "output": {
+        "name": "out",
+        "type": "real"
+      },
+      "data": {
+        "nodetype": "binning",
+        "input": "lep_flav",
+        "edges": [
+          -0.5,
+          0.5,
+          1.5,
+          2.5
+        ],
+        "content": [
+          {
+            "nodetype": "multibinning",
+            "inputs": [
+              "pt_leading",
+              "pt_trailing"
+            ],
+            "edges": [
+              [
+                25.0,
+                50.0,
+                90.0,
+                200.0
+              ],
+              [
+                15.0,
+                50.0,
+                90.0,
+                200.0
+              ]
+            ],
+            "content": [
+              0.9988358004627949,
+              1.0,
+              1.0,
+              1.0016847096493076,
+              1.0009333244851326,
+              1.0,
+              0.9989776970533416,
+              0.9979685300951124,
+              0.9978007272726686
+            ],
+            "flow": "clamp"
+          },
+          {
+            "nodetype": "multibinning",
+            "inputs": [
+              "pt_leading",
+              "pt_trailing"
+            ],
+            "edges": [
+              [
+                25.0,
+                50.0,
+                90.0,
+                200.0
+              ],
+              [
+                15.0,
+                50.0,
+                90.0,
+                200.0
+              ]
+            ],
+            "content": [
+              0.9853351077450138,
+              1.0,
+              1.0,
+              0.9926359643372004,
+              0.9976694790826264,
+              1.0,
+              0.9924879751310307,
+              0.997496247174369,
+              0.9983736145469438
+            ],
+            "flow": "clamp"
+          },
+          {
+            "nodetype": "multibinning",
+            "inputs": [
+              "pt_leading",
+              "pt_trailing"
+            ],
+            "edges": [
+              [
+                25.0,
+                50.0,
+                90.0,
+                200.0
+              ],
+              [
+                15.0,
+                50.0,
+                90.0,
+                200.0
+              ]
+            ],
+            "content": [
+              0.9768217125339057,
+              1.0,
+              1.0,
+              0.9807277831984659,
+              0.9949844365467212,
+              1.0,
+              0.9840719303211488,
+              0.9959473195378411,
+              0.9945673224533398
+            ],
+            "flow": "clamp"
+          }
+        ],
+        "flow": "clamp"
+      }
+    },
+    {
+      "name": "sf_trigger_DL_totalUp",
+      "description": "DL trigger SF totalUp; flavor-routed; hist=lepton_pt_both_2024; year=2024",
+      "version": 1,
+      "inputs": [
+        {
+          "name": "lep_flav",
+          "type": "int"
+        },
+        {
+          "name": "pt_leading",
+          "type": "real"
+        },
+        {
+          "name": "pt_trailing",
+          "type": "real"
+        }
+      ],
+      "output": {
+        "name": "out",
+        "type": "real"
+      },
+      "data": {
+        "nodetype": "binning",
+        "input": "lep_flav",
+        "edges": [
+          -0.5,
+          0.5,
+          1.5,
+          2.5
+        ],
+        "content": [
+          {
+            "nodetype": "multibinning",
+            "inputs": [
+              "pt_leading",
+              "pt_trailing"
+            ],
+            "edges": [
+              [
+                25.0,
+                50.0,
+                90.0,
+                200.0
+              ],
+              [
+                15.0,
+                50.0,
+                90.0,
+                200.0
+              ]
+            ],
+            "content": [
+              1.0095220175307946,
+              1.0,
+              1.0,
+              1.012257896505107,
+              1.0105963228335246,
+              1.0,
+              1.0085483720464599,
+              1.0075643721232124,
+              1.0103302806239876
+            ],
+            "flow": "clamp"
+          },
+          {
+            "nodetype": "multibinning",
+            "inputs": [
+              "pt_leading",
+              "pt_trailing"
+            ],
+            "edges": [
+              [
+                25.0,
+                50.0,
+                90.0,
+                200.0
+              ],
+              [
+                15.0,
+                50.0,
+                90.0,
+                200.0
+              ]
+            ],
+            "content": [
+              0.9965022528708679,
+              1.0,
+              1.0,
+              1.002669930658935,
+              1.007489290630545,
+              1.0,
+              1.0026552342787844,
+              1.0073344007854443,
+              1.0081749176953902
+            ],
+            "flow": "clamp"
+          },
+          {
+            "nodetype": "multibinning",
+            "inputs": [
+              "pt_leading",
+              "pt_trailing"
+            ],
+            "edges": [
+              [
+                25.0,
+                50.0,
+                90.0,
+                200.0
+              ],
+              [
+                15.0,
+                50.0,
+                90.0,
+                200.0
+              ]
+            ],
+            "content": [
+              0.9853400763776848,
+              1.0,
+              1.0,
+              0.9913495961264966,
+              0.9971270741103241,
+              1.0,
+              0.9894309346335045,
+              0.9988983493075313,
+              0.9990335729193786
+            ],
+            "flow": "clamp"
+          }
+        ],
+        "flow": "clamp"
+      }
+    },
+    {
+      "name": "sf_trigger_DL_totalDown",
+      "description": "DL trigger SF totalDown; flavor-routed; hist=lepton_pt_both_2024; year=2024",
+      "version": 1,
+      "inputs": [
+        {
+          "name": "lep_flav",
+          "type": "int"
+        },
+        {
+          "name": "pt_leading",
+          "type": "real"
+        },
+        {
+          "name": "pt_trailing",
+          "type": "real"
+        }
+      ],
+      "output": {
+        "name": "out",
+        "type": "real"
+      },
+      "data": {
+        "nodetype": "binning",
+        "input": "lep_flav",
+        "edges": [
+          -0.5,
+          0.5,
+          1.5,
+          2.5
+        ],
+        "content": [
+          {
+            "nodetype": "multibinning",
+            "inputs": [
+              "pt_leading",
+              "pt_trailing"
+            ],
+            "edges": [
+              [
+                25.0,
+                50.0,
+                90.0,
+                200.0
+              ],
+              [
+                15.0,
+                50.0,
+                90.0,
+                200.0
+              ]
+            ],
+            "content": [
+              0.9881495833947952,
+              1.0,
+              1.0,
+              0.9911115227935082,
+              0.9912703261367405,
+              1.0,
+              0.9894070220602232,
+              0.9883726880670125,
+              0.9852711739213496
+            ],
+            "flow": "clamp"
+          },
+          {
+            "nodetype": "multibinning",
+            "inputs": [
+              "pt_leading",
+              "pt_trailing"
+            ],
+            "edges": [
+              [
+                25.0,
+                50.0,
+                90.0,
+                200.0
+              ],
+              [
+                15.0,
+                50.0,
+                90.0,
+                200.0
+              ]
+            ],
+            "content": [
+              0.9741679626191596,
+              1.0,
+              1.0,
+              0.9826019980154658,
+              0.9878496675347078,
+              1.0,
+              0.9823207159832771,
+              0.9876580935632937,
+              0.9885723113984973
+            ],
+            "flow": "clamp"
+          },
+          {
+            "nodetype": "multibinning",
+            "inputs": [
+              "pt_leading",
+              "pt_trailing"
+            ],
+            "edges": [
+              [
+                25.0,
+                50.0,
+                90.0,
+                200.0
+              ],
+              [
+                15.0,
+                50.0,
+                90.0,
+                200.0
+              ]
+            ],
+            "content": [
+              0.9683033486901266,
+              1.0,
+              1.0,
+              0.9701059702704351,
+              0.9928417989831183,
+              1.0,
+              0.9787129260087931,
+              0.9929962897681509,
+              0.990101071987301
+            ],
+            "flow": "clamp"
+          }
+        ],
+        "flow": "clamp"
+      }
+    }
+  ]
+}

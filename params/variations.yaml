@@ -1,0 +1,184 @@
+systematic_variations:
+  weight_variations:
+    sf_btag_fixed_wp:
+      "2016_PreVFP":
+        sf_collection_to_use: "comb"
+        light_flavor_name: "incl"
+        comb: 
+          - isr
+          - fsr
+          - hdamp
+          - jes
+          - jer
+          - pileup
+          - qcdscale
+          - statistic
+          - topmass
+          - type3
+        mujets:
+          - jes
+          - pileup
+          - statistic
+          - type3
+        incl:
+          - correlated
+          - uncorrelated
+      '2016_PostVFP': "${.2016_PreVFP}"
+      '2017': "${.2016_PreVFP}"
+      '2018': "${.2016_PreVFP}"
+      '2022_preEE':
+        sf_collection_to_use: "mujets"
+        light_flavor_name: "light"
+        comb: 
+          - bfragmentation
+          - colorreconnection
+          - hdamp
+          - jer
+          - jes
+          - pdf
+          - pileup
+          - statistic
+          - topmass
+          - type3
+        mujets:
+          - bfragmentation
+          - jes
+          - pileup
+          - statistic
+          - type3
+        light:
+          - 
+      '2022_postEE': "${.2022_preEE}"
+      '2023_preBPix': "${.2022_preEE}"
+      '2023_postBPix': "${.2022_preEE}"
+
+jet_scale_factors:
+  btagSF:
+    '2022_postEE':
+      btagEfficiencyFile: 
+        btagDeepFlavB: "${config_dir:}/btag_efficiencies_btagDeepFlavB_2022_postEE.json"
+        btagPNetB: "${config_dir:}/btag_efficiencies_btagPNetB_2022_postEE.json"
+        btagRobustParTAK4B: "${config_dir:}/btag_efficiencies_btagRobustParTAK4B_2022_postEE.json"
+      fixed_wp_name_map:
+        btagDeepFlavB: "deepJet"
+        btagPNetB: "particleNet"
+        btagRobustParTAK4B: "robustParticleTransformer"
+    '2023_postBPix':
+      btagEfficiencyFile: 
+        btagDeepFlavB: "${config_dir:}/btag_efficiencies_btagDeepFlavB_2023_postBPix.json"
+        btagPNetB: "${config_dir:}/btag_efficiencies_btagPNetB_2023_postBPix.json"
+        btagRobustParTAK4B: "${config_dir:}/btag_efficiencies_btagRobustParTAK4B_2023_postBPix.json"
+      fixed_wp_name_map:
+        btagDeepFlavB: "deepJet"
+        btagPNetB: "particleNet"
+        btagRobustParTAK4B: "robustParticleTransformer"
+
+btagging:
+  working_point:
+    '2022_preEE':
+      btagging_algorithm: btagRobustParTAK4B
+      btagging_WP:
+        L: 0.0849
+        M: 0.4319
+        T: 0.8482
+        XT: 0.9151
+        XXT: 0.9874
+        btagDeepFlavB:
+          L: 0.0583
+          M: 0.3086
+          T: 0.7183
+          XT: 0.8111
+          XXT: 0.9512
+        btagPNetB:
+          L: 0.047
+          M: 0.245
+          T: 0.6734
+          XT: 0.7862
+          XXT: 0.961
+        btagRobustParTAK4B:
+          L: 0.0849
+          M: 0.4319
+          T: 0.8482
+          XT: 0.9151
+          XXT: 0.9874
+    '2022_postEE':
+      btagging_algorithm: btagRobustParTAK4B
+      btagging_WP:
+        L: 0.0897
+        M: 0.451
+        T: 0.8604
+        XT: 0.9234
+        XXT: 0.9893
+        btagDeepFlavB:
+          L: 0.0614
+          M: 0.3196
+          T: 0.7300
+          XT: 0.8184
+          XXT: 0.9542
+        btagPNetB:
+          L: 0.0499
+          M: 0.2605
+          T: 0.6915
+          XT: 0.8033
+          XXT: 0.9664
+        btagRobustParTAK4B:
+          L: 0.0897
+          M: 0.451
+          T: 0.8604
+          XT: 0.9234
+          XXT: 0.9893
+    '2023_preBPix':
+      btagging_algorithm: btagRobustParTAK4B
+      btagging_WP:
+        L: 0.0681
+        M: 0.3487
+        T: 0.7969
+        XT: 0.8882
+        XXT: 0.9883
+      other_btagging_WPs:
+        btagDeepFlavB:
+          L: 0.0479
+          M: 0.2431
+          T: 0.6553
+          XT: 0.7667
+          XXT: 0.9459
+        btagPNetB:
+          L: 0.0358
+          M: 0.1917
+          T: 0.6172
+          XT: 0.7515
+          XXT: 0.9659
+        btagRobustParTAK4B:
+          L: 0.0681
+          M: 0.3487
+          T: 0.7969
+          XT: 0.8882
+          XXT: 0.9883
+    '2023_postBPix':
+      btagging_algorithm: btagRobustParTAK4B
+      btagging_WP:
+        L: 0.0683
+        M: 0.3494
+        T: 0.7994
+        XT: 0.8877
+        XXT: 0.9883
+      other_btagging_WPs:
+        btagDeepFlavB:
+          L: 0.048
+          M: 0.2435
+          T: 0.6563
+          XT: 0.7671
+          XXT: 0.9483
+        btagPNetB:
+          L: 0.0359
+          M: 0.1919
+          T: 0.6133
+          XT: 0.7544
+          XXT: 0.9688
+        btagRobustParTAK4B:
+          L: 0.0683
+          M: 0.3494
+          T: 0.7994
+          XT: 0.8877
+          XXT: 0.9883
+

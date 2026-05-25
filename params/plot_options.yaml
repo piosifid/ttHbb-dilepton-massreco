@@ -1,0 +1,679 @@
+fontsize: 20
+plotting_style:
+  correlation:
+    #"2022_preEE": 0.994
+  parameters_eff:
+    "2016_PreVFP":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+    "2016_PostVFP":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+    "2017":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+    "2018":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+    "2022_preEE":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+    "2022_postEE":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+    "2023_postBPix":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+    "2024":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+    "2023_preBPix":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0, 1]}
+        ElectronGood_eta: {ylim: [0, 1]}
+        ElectronGood_etaSC: {ylim: [0, 1]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0, 1]}
+        ht: {ylim: [0, 1]}
+
+  parameters_sf:
+    "2016_PreVFP":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+    "2016_PostVFP":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+    "2017":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+    "2018":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+    "2022_preEE":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+    "2022_postEE":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+    "2023_preBPix":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+    "2023_postBPix":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+    "2024":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.85, 1]}
+        ElectronGood_eta: {ylim: [0.8, 1.2]}
+        ElectronGood_etaSC: {ylim: [0.8, 1.2]}
+        ElectronGood_phi: {ylim: [0, 1]}
+        nJets: {ylim: [0.5, 1.1]}
+        ht: {ylim: [0.5, 1.1]}
+        
+  parameters_ratio:
+    "2016_PostVFP":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+    "2016_PreVFP":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+    "2017":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}  
+    "2018":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+    "2022_preEE":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+    "2022_postEE":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}  
+    "2023_preBPix":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+    "2023_postBPix":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+    "2024":
+      EleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleEle_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+      DoubleMu_pass:
+        ElectronGood_pt: {ylim: [0.95, 1.05]}
+        ElectronGood_eta: {ylim: [0.95, 1.05]}
+        ElectronGood_etaSC: {ylim: [0.95, 1.05]}
+        ElectronGood_phi: {ylim: [0.95, 1.05]}
+        nJets: {ylim: [0.70, 1.30]}
+        ht: {ylim: [0.70, 1.30]}
+
+        
+  opts_eff:
+    figure:
+      dpi: 200
+      fontsize_map: 14
+  opts_mc:
+    flow: "none" 
+  opts_sf:
+    figure:
+      dpi: 200
+      fontsize_map: 14
+      
+  opts_map:
+    figure:
+      dpi: 300
+    patch_opts:
+      EleMu_pass:
+        label: "EleMu"
+      EleMu_MuonLeading_pass:
+        label: "EleMu (μ leading)"
+      EleMu_EleLeading_pass:
+        label: "EleMu (e leading)"
+      DoubleMu_pass:
+        label: "DoubleMu"
+      DoubleEle_pass:
+        label: "DoubleEle"
+      Ele32_EleHT_pass:
+        label: "Ele32 + HT"
+      Ele32_EleHT_pass_lowHT:
+        label: "Ele32 + HT (low HT)"
+      Ele32_EleHT_pass_highHT:
+        label: "Ele32 + HT (high HT)"
+      data:
+        label: "Data"
+        vmin: 0.0
+        vmax: 1.0
+      mc:
+        label: "MC"
+        vmin: 0.0
+        vmax: 1.0
+      sf:
+        label: "Scale Factor"
+        vmin: 0.5
+        vmax: 1.5
+      unc_data:
+        label: "Stat. Unc. (Data)"
+        vmin: 0.0
+        vmax: 0.5
+      unc_mc:
+        label: "Stat. Unc. (MC)"
+        vmin: 0.0
+        vmax: 0.5
+      unc_sf:
+        label: "Stat. Unc. (SF)"
+        vmin: 0.0
+        vmax: 0.5
+      unc_rel_data:
+        label: "Rel. Stat. Unc. (Data)"
+        vmin: 0.0
+        vmax: 1.0
+      unc_rel_mc:
+        label: "Rel. Stat. Unc. (MC)"
+        vmin: 0.0
+        vmax: 1.0
+      unc_rel_sf:
+        label: "Rel. Stat. Unc. (SF)"
+        vmin: 0.0
+        vmax: 1.0
+      ratio_sf:
+        label: "Var / Nom (SF)"
+        vmin: 0.7
+        vmax: 1.3
+
+  categorical_axes_data:
+    era: eras

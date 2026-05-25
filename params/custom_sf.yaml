@@ -1,0 +1,9 @@
+custom_scale_factors:
+  name: CustomScaleFactors
+  JSONfiles:
+    '2023_preBPix':
+      file: "/eos/home-z/zpainesi/Final_DNN/Final1/INF_DNN_TRF/Final1_woDNN_CustomSF_DATA_MC_Summed_2023/CustomSF_2023_cutJets_btagRobustParTAK4B_vs_pt_vs_abseta_Final1.json"
+    '2023_postBPix':
+      file: "/eos/home-z/zpainesi/Final_DNN/Final1/INF_DNN_TRF/Final1_woDNN_CustomSF_DATA_MC_Summed_2023/CustomSF_2023_cutJets_btagRobustParTAK4B_vs_pt_vs_abseta_Final1.json"
+    '2024':
+      file: "/eos/user/p/piosifid/PocketCoffea/ANN_newCoffea/CLEAN_24_070526/maps_mc/CustomSF_2024_cutJets_btagRobustParTAK4B_vs_pt_vs_abseta_1105.json"

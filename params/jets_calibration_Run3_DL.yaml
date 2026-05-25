@@ -1,0 +1,87 @@
+
+jets_calibration:
+  apply_jec_nominal:  # this is needed to know which collection is corrected with which jet factory
+    2016_PreVFP: True
+    2016_PostVFP: True
+    "2017": True
+    "2018": True
+    2022_preEE: True
+    2022_postEE: True
+    2023_preBPix: True
+    2023_postBPix: True
+
+  rescale_MET:
+    2016_PreVFP: True
+    2016_PostVFP: True
+    "2017": True
+    "2018": True
+    2022_preEE: True
+    2022_postEE: True
+    2023_preBPix: True
+    2023_postBPix: True
+
+  rescale_MET_branch:
+     2016_PreVFP: "MET"
+     2016_PostVFP: "MET"
+     "2017": "MET"
+     "2018": "MET"
+     2022_preEE:  "PuppiMET"
+     2022_postEE: "PuppiMET"
+     2023_preBPix: "PuppiMET"
+     2023_postBPix: "PuppiMET"
+
+#  collection:
+#    2022_preEE:
+#      AK4PFchs: "Jet"
+#      AK8PFPuppi: "FatJet"
+#    2022_postEE:
+#      AK4PFchs: "Jet"
+#      AK8PFPuppi: "FatJet"
+#    2023_preBPix:
+#      AK4PFchs: "Jet"
+#      AK8PFPuppi: "FatJet"
+#    2023_postBPix:
+#      AK4PFchs: "Jet"
+#      AK8PFPuppi: "FatJet"
+      
+  apply_jec_MC:
+    2022_preEE:
+      AK4PFchs: true
+      AK8PFPuppi: true
+    2022_postEE:
+      AK4PFchs: true
+      AK8PFPuppi: true
+    2023_preBPix:
+      AK4PFchs: true
+      AK8PFPuppi: true
+    2023_postBPix:
+      AK4PFchs: true
+      AK8PFPuppi: true
+      
+  apply_jec_Data:
+    2022_preEE:
+      AK4PFchs: true
+      AK8PFPuppi: false
+    2022_postEE:
+      AK4PFchs: true
+      AK8PFPuppi: false
+    2023_preBPix:
+      AK4PFchs: true
+      AK8PFPuppi: false
+    2023_postBPix:
+      AK4PFchs: true
+      AK8PFPuppi: false
+      
+  variations:
+    2022_preEE:
+      AK4PFchs: ["jec", "jer"]
+      AK8PFPuppi: ["jec"]
+    2022_postEE:
+      AK4PFchs: ["jec", "jer"]
+      AK8PFPuppi: ["jec"]
+    2023_preBPix:
+      AK4PFchs: ["jec", "jer"]
+      AK8PFPuppi: ["jec"]
+    2023_postBPix:
+      AK4PFchs: ["jec", "jer"]
+      AK8PFPuppi: ["jec"]

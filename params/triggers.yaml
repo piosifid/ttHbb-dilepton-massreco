@@ -1,0 +1,124 @@
+HLT_triggers:
+  "2016_PreVFP":
+    SingleEle:
+       - Ele27_WPTight_Gsf
+
+    SingleMuon:
+        - IsoMu24
+        - IsoTkMu24
+
+  "2016_PostVFP":
+    SingleEle:
+        - Ele27_WPTight_Gsf
+    SingleMuon:
+        - IsoMu24
+        - IsoTkMu24
+
+  "2017":
+    DoubleEle: 
+      - Ele23_Ele12_CaloIdL_TrackIdL_IsoVL
+      - Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ
+
+    DoubleMuon: 
+      - Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ
+      - Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8
+
+    MuonEG: 
+      - Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL
+      - Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ
+      - Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ
+      - Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ
+
+    SingleEle: 
+      - Ele32_WPTight_Gsf
+
+    SingleMuon: 
+      - IsoMu24_eta2p1,
+      - IsoMu27
+    
+
+  "2018":
+    SingleEle:
+      - Ele32_WPTight_Gsf
+      - Ele28_eta2p1_WPTight_Gsf_HT150
+
+    SingleMuon:
+      - IsoMu24
+
+  "2022_preEE":
+    DoubleEle: 
+      - Ele23_Ele12_CaloIdL_TrackIdL_IsoVL
+    DoubleMuon: 
+      - Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8
+    MuonEG: 
+      - Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL
+      - Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ
+      - Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ
+      - Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ
+    SingleEle: 
+      - Ele30_WPTight_Gsf
+    SingleMuon: 
+      - IsoMu24
+    MET: 
+       - PFMET120_PFMHT120_IDTight_PFHT60
+       - PFMET200_HBHE_BeamHaloCleaned
+       - PFMETTypeOne200_HBHE_BeamHaloCleaned
+       - PFMETNoMu120_PFMHTNoMu120_IDTight
+       - PFMET120_PFMHT120_IDTight
+       - PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60
+       - PFHT500_PFMET100_PFMHT100_IDTight
+       - PFHT700_PFMET85_PFMHT85_IDTight
+       - PFHT800_PFMET75_PFMHT75_IDTight
+
+  "2022_postEE":
+    DoubleEle: 
+      - Ele23_Ele12_CaloIdL_TrackIdL_IsoVL
+    DoubleMuon: 
+      - Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8
+    MuonEG: 
+      - Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL
+      - Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ
+      - Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ
+      - Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ
+    SingleEle: 
+      - Ele30_WPTight_Gsf
+    SingleMuon: 
+      - IsoMu24
+    MET: 
+       - PFMET120_PFMHT120_IDTight_PFHT60
+       - PFMET200_HBHE_BeamHaloCleaned
+       - PFMETTypeOne200_HBHE_BeamHaloCleaned
+       - PFMETNoMu120_PFMHTNoMu120_IDTight
+       - PFMET120_PFMHT120_IDTight
+       - PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60
+       - PFHT500_PFMET100_PFMHT100_IDTight
+       - PFHT700_PFMET85_PFMHT85_IDTight
+       - PFHT800_PFMET75_PFMHT75_IDTight
+      
+
+  "2023_preBPix":
+    DoubleEle: 
+      - Ele23_Ele12_CaloIdL_TrackIdL_IsoVL
+    DoubleMuon: 
+      - Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8
+    MuonEG: 
+      - Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ
+      - Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ
+    SingleEle: 
+      - Ele30_WPTight_Gsf
+    SingleMuon: 
+      - IsoMu24
+
+
+  "2023_postBPix":
+    DoubleEle: 
+      - Ele23_Ele12_CaloIdL_TrackIdL_IsoVL
+    DoubleMuon: 
+      - Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8
+    MuonEG: 
+      - Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ
+      - Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ
+    SingleEle: 
+      - Ele30_WPTight_Gsf
+    SingleMuon: 
+      - IsoMu24
