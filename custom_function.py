@@ -17,7 +17,7 @@ from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
 from parton import mkPDF
 from numba import njit, float64
-from mass_reco_functions import *
+from mass_reco_functions_mc import *
 
 
 
