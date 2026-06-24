@@ -94,7 +94,7 @@ def dileptonic(events, params, year, processor_params, sample, isMC, **kwargs):
     else:
         met_cut = True
 
-    if year in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
+    if year in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix", "2024"]:
         mask_jetVetoMap = get_JetVetoMap_Mask(events, params, year, processor_params, sample, isMC, **kwargs)
     else:
         mask_jetVetoMap = True
@@ -149,7 +149,7 @@ def dileptonic_MaskNegTagVal(events, params, year, processor_params, sample, isM
     else:
         met_cut = True
 
-    if year in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix"]:
+    if year in ["2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix", "2024"]:
         mask_jetVetoMap = get_JetVetoMap_Mask(events, params, year, processor_params, sample, isMC, **kwargs)
     else:
         mask_jetVetoMap = True
