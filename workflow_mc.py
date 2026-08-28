@@ -4,17 +4,7 @@ import custom_function
 from pocket_coffea.workflows.tthbb_base_processor import ttHbbBaseProcessor
 from pocket_coffea.lib.deltaR_matching import metric_eta, metric_phi
 from pocket_coffea.lib.deltaR_matching import object_matching
-from pocket_coffea.lib.parton_provenance import get_partons_provenance_ttHbb, get_partons_provenance_ttbb4F, get_partons_provenance_tt5F
-from pocket_coffea.lib.objects import (
-    getGenLeptons,
-    getGenJets,
-    get_dilepton,
-    get_dijet
-)
-#from custom_function import solve_ttbar_dilepton
-from pocket_coffea.lib.objects import (
-    btagging,
-)
+from pocket_coffea.lib.objects import get_dilepton
 from custom_function import *
 from mass_reco_functions_mc import *
 import event_shapes
@@ -22,48 +12,6 @@ from event_shapes import compute_event_shapes
 import vector
 vector.register_awkward()
 import csv
-
-
-  
-
-def debug_bscore_raise(bscore):
-    import awkward as ak
-    import numpy as np
-
-    mask_bad = ~ak.is_finite(bscore)
-
-    # If all values are finite, nothing to debug
-    if not ak.any(mask_bad):
-        return
-
-    # Find first problematic event
-    evt = ak.where(ak.any(mask_bad, axis=1))[0][0]
-
-    # Find indices of jets with NaN or inf
-    bad_jets = ak.where(mask_bad[evt])[0]
-
-    # Build debug message
-    msg = []
-    msg.append("\n[DEBUG] Non-finite bscore detected!")
-    msg.append(f"Event index: {evt}")
-    msg.append(f"Jet indices with NaN/inf: {bad_jets.tolist()}")
-    msg.append(f"bscore values for event:\n{bscore[evt].tolist()}")
-
-    # Sorted values
-    idx_evt = ak.argsort(bscore[evt], ascending=False)
-    sorted_evt = bscore[evt][idx_evt]
-
-    msg.append(f"Sorted bscore values:\n{sorted_evt.tolist()}")
-    msg.append(f"Top-4 sorted:\n{sorted_evt[:4].tolist()}")
-
-    # Compute sum (will be nan)
-    sum4 = ak.sum(sorted_evt[:4])
-    msg.append(f"Sum(top-4): {sum4}")
-
-    full_msg = "\n".join(msg)
-
-    # Raise an exception so Dask returns this to your terminal
-    raise RuntimeError(full_msg)
 
 # ==== DNN (Step 1: constants + loaders) ======================================
 # EXACT order must match what you used to train the network
@@ -200,6 +148,18 @@ class ttHbb_Run3(ttHbbBaseProcessor):
     def __init__(self, cfg) -> None:
         super().__init__(cfg=cfg)
         self.isRun3 = True if self.params["run_period"]=='Run3' else False
+        # List of sample names (as they appear in events.metadata["sample"])
+        # that actually have a true Higgs boson to match against, e.g.
+        # ["TTH_Hto2B"]. Set via `has_higgs_truth_samples` in the config
+        # params. Any sample NOT in this list gets has_higgs_truth = False,
+        # including the case where the param isn't set at all (defaults to
+        # an empty list -- nobody gets Higgs truth unless explicitly listed).
+        # This can't be resolved to a single self.has_higgs_truth here in
+        # __init__, because __init__ runs once for the whole job, before any
+        # chunk (and therefore any per-sample metadata) exists --
+        # self.has_higgs_truth is instead set per-chunk, from the sample
+        # name, at the top of define_common_variables_after_presel.
+        self._signal_samples = self.params.get("has_higgs_truth_samples", [])
          # --- Step 1: load model + norms once per worker (will raise if broken) ---
         self._dnn_mu, self._dnn_sigma = _load_norms_csv(DNN_NORMS_PATH)
         self._dnn_model = _load_tf_model(DNN_MODEL_PATH)
@@ -209,17 +169,26 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["ll"] = get_dilepton(
             self.events.ElectronGood, self.events.MuonGood
         )
-        ##self.events["MyGenLeptons"] = getGenLeptons(
-          #  self.events, "Both", self.params
-        #)
-        #self.events["MyGenLeptons","charge"] = np.sign(self.events["MyGenLeptons"]["pdgId"])
 
-        #self.events["ll"] = get_dilepton(self.events.MyGenLeptons, None)
+    def _resolve_btag_score_field(self):
+        """
+        Look up which b-tagging discriminator branch to use for THIS chunk's
+        data-taking year, driven by the analysis config:
+            params.btagging.working_point.<year>.btagging_algorithm
+        e.g. "btagRobustParTAK4B" for 2022/2023 (and 2018, once configured),
+        "btagUParTAK4B" for 2024. Replaces the old hardcoded "btagUParTAK4B"
+        branch name, which only exists for 2024 samples and would KeyError
+        (or silently be wrong) on every other year.
+        """
+        year = getattr(self, "_year", None) or self.events.metadata.get("year")
+        try:
+            return self.params["btagging"]["working_point"][year]["btagging_algorithm"]
+        except KeyError:
+            raise RuntimeError(
+                f"[btag] No 'btagging_algorithm' configured for year='{year}' under "
+                "params.btagging.working_point -- check the analysis config."
+            )
 
-        #self.events["MyGenJets"] =  getGenJets(self.events, "MyGenLeptons", self.params)
-        #self.events["MyGenJets", "pdgId"] = self.events.MyGenJets.partonFlavour
-        
-        #self.events["dijet"] = get_dijet(self.events.MyGenJets, tagger=None)
     def get_partons_provenance_ttHbb_dileptonic(self, pdgIds, array_builder):
       """
       This function assigns particle provenance (origin) for b-quarks in a dileptonic ttH -> bb process,
@@ -233,14 +202,26 @@ class ttHbb_Run3(ttHbbBaseProcessor):
       """
 
       for ids in pdgIds:
-        from_part = [-1] * max(4, len(ids))
-        if len(ids) == 5:
+        n = len(ids)
+        if n == 5:
+            # 2 top b-quarks + 2 Higgs b-quarks + 1 extra ISR/FSR parton
             offset = 1
+            from_part = [-1] * 5
             from_part[0] = 4
-        else:
+        elif n == 4:
+            # 2 top b-quarks + 2 Higgs b-quarks
             offset = 0
+            from_part = [-1] * 4
+        else:
+            # No ttH-shaped Higgs pair present (e.g. a background sample
+            # with has_higgs_truth=False, so `ids` is just the LHE
+            # b/bbar partons -- no padding to a Higgs-sized array, or the
+            # provenance array would end up longer than `ids` itself and
+            # break ak.with_field(quarks, prov, "provenance") below.
+            offset = 0
+            from_part = [-1] * n
 
-        if len(ids) == 4 or len(ids) == 5:
+        if n in (4, 5):
             if ids[0 + offset] == 5:
                 from_part[0 + offset] = 2
             if ids[1 + offset] == -5:
@@ -249,11 +230,13 @@ class ttHbb_Run3(ttHbbBaseProcessor):
             from_part[2 + offset] = 1
             from_part[3 + offset] = 1
         else:
-
-            from_part[0 + offset] = 2
-            from_part[1 + offset] = 3
-            from_part[2 + offset] = 1
-            from_part[3 + offset] = 1
+            # No Higgs quarks to label here -- just tag the top/antitop
+            # b-quarks wherever they show up among the n partons.
+            for i, pid in enumerate(ids):
+                if pid == 5:
+                    from_part[i] = 2
+                elif pid == -5:
+                    from_part[i] = 3
 
         array_builder.begin_list()
         for i in from_part:
@@ -263,19 +246,21 @@ class ttHbb_Run3(ttHbbBaseProcessor):
 
     def define_common_variables_after_presel(self, variation):
         super().define_common_variables_before_presel(variation=variation)
-        # ~ print(self.events["BJetGood_L"]["btagDeepFlavB"][1][0:50])
-        # ~ print(ak.to_list(self.events["BJetGood_M"]["btagDeepFlavB"][:50]))
-        # ~ print(ak.to_list(self.events["BJetGood_L"]["btagDeepFlavB"][:50]))
-        # ~ print(self.events["BJetGood_L"])
-        # List all keys in the self.events array
-        #available_keys = ak.fields(self.events["event"])
-        
-        #genpart_fields = ak.fields(self.events["GenPart"])
-        #print("Available fields in GenPart:", genpart_fields)
+        # Resolve has_higgs_truth for THIS chunk's sample. Runs per chunk
+        # (not just once in __init__) because different samples in the same
+        # job (e.g. TTH_Hto2B signal + TT2L2Nu background processed
+        # together) need different answers here. Anything not explicitly
+        # listed in has_higgs_truth_samples (config params) is False.
+        sample_name = self.events.metadata.get("sample", None)
+        self.has_higgs_truth = sample_name in self._signal_samples
+
+        # B-tag discriminator branch to use for this year (config-driven --
+        # see params.btagging.working_point.<year>.btagging_algorithm).
+        # Replaces every previously-hardcoded "btagUParTAK4B" reference below.
+        self._btag_field = self._resolve_btag_score_field()
+
         # Compute deltaR(b, b) of all possible b-jet pairs.
         # We require deltaR > 0 to exclude the deltaR between the jets with themselves
-        # print(ak.fields(self.events))
-        # print(ak.to_list(self.events["event"]))
         deltaR = ak.flatten(self.events["BJetGood"].metric_table(self.events["BJetGood"]), axis=2)
         deltaEta = ak.flatten(self.events["BJetGood"].metric_table(self.events["BJetGood"], metric=metric_eta), axis=2)
         deltaPhi = ak.flatten(self.events["BJetGood"].metric_table(self.events["BJetGood"], metric=metric_phi), axis=2)
@@ -284,20 +269,7 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         deltaPhi = deltaPhi[deltaPhi > 0.]
         
         # Get the deltaR with no possibility of repetition of identical b-jet pairs
-
-        # Get all the possible combinations of b-jet pairs
-        pairs = ak.argcombinations(self.events["BJetGood"], 2, axis=1)
-        b1 = self.events["BJetGood"][pairs.slot0]
-        b2 = self.events["BJetGood"][pairs.slot1]
-
-        # Compute deltaR between the pairs
-        deltaR_unique = b1.delta_r(b2)
-        idx_pairs_sorted = ak.argsort(deltaR_unique, axis=1)
-        pairs_sorted = pairs[idx_pairs_sorted]
-
-              # Get the deltaR with no possibility of repetition of identical b-jet pairs
-
-        # Get all the possible combinations of b-jet pairs
+        # (unique combinations only, sorted by ascending deltaR)
         pairs = ak.argcombinations(self.events["BJetGood"], 2, axis=1)
         b1 = self.events["BJetGood"][pairs.slot0]
         b2 = self.events["BJetGood"][pairs.slot1]
@@ -320,22 +292,33 @@ class ttHbb_Run3(ttHbbBaseProcessor):
             -1: "Unknown"
         }
         isOutgoing = self.events.LHEPart.status == 1
-        isParton = abs(self.events.LHEPart.pdgId) <= 6  
+        isParton = abs(self.events.LHEPart.pdgId) <= 6
         quarks = self.events.LHEPart[isOutgoing & isParton]
-        higgs = self.events.GenPart[
-                (self.events.GenPart.pdgId == 25)
-                & (self.events.GenPart.hasFlags(['fromHardProcess']))
-        ]
 
-        higgs = higgs[ak.num(higgs.childrenIdxG, axis=2) == 2]
-        higgs_partons = ak.flatten(higgs.children, axis=2)
         # Naming the quark array in this particular way will make more functions accessible
         # (Similar as to vector.register_awkward() and "Momentum4D")
-        quarks = ak.with_name(
-                ak.concatenate((quarks, higgs_partons), axis=1),
-                name='PtEtaPhiMCandidate',
-        )
-            # Obtain parton provenance and match partons to RECO-level jets
+        if self.has_higgs_truth:
+            higgs = self.events.GenPart[
+                    (self.events.GenPart.pdgId == 25)
+                    & (self.events.GenPart.hasFlags(['fromHardProcess']))
+            ]
+
+            higgs = higgs[ak.num(higgs.childrenIdxG, axis=2) == 2]
+            higgs_partons = ak.flatten(higgs.children, axis=2)
+            quarks = ak.with_name(
+                    ak.concatenate((quarks, higgs_partons), axis=1),
+                    name='PtEtaPhiMCandidate',
+            )
+        else:
+            # Background sample with no true Higgs (has_higgs_truth=False):
+            # only the LHE top/antitop b-quarks go into `quarks`. Every
+            # downstream truth-matching function already handles "no
+            # provenance==1 (Higgs) jets found" per event gracefully, so
+            # nothing else needs to change -- correct_match, higgs_mass_truth_jets,
+            # etc. will just come back empty/None for every event, as expected.
+            quarks = ak.with_name(quarks, name='PtEtaPhiMCandidate')
+
+        # Obtain parton provenance and match partons to RECO-level jets
         prov = self.get_partons_provenance_ttHbb_dileptonic(
                 quarks.pdgId, ak.ArrayBuilder()).snapshot()
 
@@ -361,38 +344,16 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         # === Optional: save provenance and ΔR for further filtering
         self.events["matched_provenance"] = q_matched.provenance
         self.events["matched_dR"] = dR
-        #print(type(j_matched[0]))  # Or even better
-        #print(j_matched[0])
+        # j_matched[0] holds the reco jet matched to the first quark, if needed for inspection.
 
-        # Compute the minimum deltaR(b, b), deltaEta(b, b), deltaPhi(b, b) and the invariant mass of the closest b-jet pair
-        self.events["deltaRbb_min"] = ak.min(deltaR, axis=1)
-        self.events["deltaEtabb_min"] = ak.min(deltaEta, axis=1)
-        self.events["deltaPhibb_min"] = ak.min(deltaPhi, axis=1)
-        # Map numeric provenance labels to names for clarity
         self.events["mbb"] = (self.events["BJetGood"][pairs_sorted.slot0] + self.events["BJetGood"][pairs_sorted.slot1]).mass
         self.events["mbb_min"] = ak.firsts(self.events["mbb"])
         self.events["mass_w"] = 80
         self.events["mass_top"] = 170
         self.events["mass_w_minus"] = self.events["mass_w"]
         self.events["mass_antitop"] = self.events["mass_top"]
-        # Assign the first b-jet to "1st_jet"
-        '''
-        self.events["whatever"] = ak.firsts(self.events["JetGood"])
-        
-        self.events["1st_jet"] = ak.firsts(self.events["JetGood"])
 
-        # Assign the second b-jet to "2nd_jet", if it exists
-        self.events["2nd_jet"] = ak.firsts(self.events["JetGood"][:, 1:])
-
-        # Assign the third b-jet to "3rd_jet", if it exists
-        self.events["3rd_jet"] = ak.firsts(self.events["JetGood"][:, 2:])
-
-        # Assign the fourth b-jet to "4th_jet", if it exists
-        self.events["4th_jet"] = ak.firsts(self.events["JetGood"][:, 3:])
-        self.events["5th_jet"] = ak.firsts(self.events["JetGood"][:, 4:])
-        
-        '''     
-         # Compute GenJet pull vectors from GenPart
+        # Compute GenJet pull vectors from GenPart
         pull_vectors = self.compute_pull_vectors_drmatched(self.events.GenJet, self.events.GenPart)
 
         # Map GenJet pull values to reco jets using Jet.genJetIdx
@@ -432,16 +393,16 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         )
         # Now store this as a new field in JetGood (this will be a "virtual" field inside awkward array)
         self.events["JetGood"] = ak.with_field(self.events["JetGood"], jet_pt_regressed, "pt_regressed")
-        # Get the indices that would sort JetGood by btag score (descending)
 
-        # Get the indices that would sort JetGood by btag score (descending)
-        btag_sorted_idx = ak.argsort(self.events["JetGood"]["btagUParTAK4B"], ascending=False)
+        # Get the indices that would sort JetGood by pt (descending), and use them
+        # to pick the leading 5 jets ("1st_jet" ... "5th_jet") by pT ordering.
+        pt_sorted_idx = ak.argsort(self.events["JetGood"]["pt"], ascending=False)
 
         # Use these indices to get the sorted jets
-        sorted_jets = self.events["JetGood"][btag_sorted_idx]
+        sorted_jets = self.events["JetGood"][pt_sorted_idx]
 
         # Store the original indices of the sorted jets
-        sorted_jet_orig_idx = btag_sorted_idx
+        sorted_jet_orig_idx = pt_sorted_idx
 
         # Assign top 5 jets and their original indices
         self.events["1st_jet"] = ak.firsts(sorted_jets[:, 0:1])
@@ -456,33 +417,52 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["3rd_jet_idx"] = ak.firsts(sorted_jet_orig_idx[:, 2:3])
         self.events["4th_jet_idx"] = ak.firsts(sorted_jet_orig_idx[:, 3:4])
         self.events["5th_jet_idx"] = ak.firsts(sorted_jet_orig_idx[:, 4:5])
-        
-        import vector
-        vector.register_awkward()
-        bjet1 = ak.zip({
-             "pt": self.events["1st_jet"]["pt_regressed"],
+
+        # =====================================================================
+        # DEBUG: jet-selection sanity check (first 6 events)
+        # Purely diagnostic — prints JetGood pt/eta/phi/mass/btag score
+        # (in original NanoAOD order) alongside the pT-ordered selection
+        # that becomes "1st_jet".."5th_jet" below. Does not touch any
+        # stored branch or the physics logic.
+        # =====================================================================
+        n_debug = min(6, len(self.events))
+        if n_debug > 0:
+            jets_dbg = self.events["JetGood"][:n_debug]
+            sel_pt_dbg = sorted_jets[:n_debug]
+            sel_idx_dbg = sorted_jet_orig_idx[:n_debug]
+            print(f"\n[DEBUG] Jet selection check (pT-ordered) — first {n_debug} event(s)")
+            for iev in range(n_debug):
+                jev = jets_dbg[iev]
+                print(f"  Event {iev}: nJetGood={len(jev)}")
+                print(f"    pt (orig order)   : {ak.to_list(jev.pt)}")
+                print(f"    eta               : {ak.to_list(jev.eta)}")
+                print(f"    phi               : {ak.to_list(jev.phi)}")
+                print(f"    mass              : {ak.to_list(jev.mass)}")
+                print(f"    btag ({self._btag_field}): {ak.to_list(getattr(jev, self._btag_field))}")
+                sel = sel_pt_dbg[iev][:5]
+                print(f"    -> selected (pT-ordered) idx  : {ak.to_list(sel_idx_dbg[iev][:5])}")
+                print(f"    -> selected (pT-ordered) pt   : {ak.to_list(sel.pt)}")
+                print(f"    -> selected (pT-ordered) mass : {ak.to_list(sel.mass)}")
+
+        bjet1 = vector.zip({
+             "pt": self.events["1st_jet"]["pt"],
              "eta": self.events["1st_jet"]["eta"],
              "phi": self.events["1st_jet"]["phi"],
              "mass": self.events["1st_jet"]["mass"]
-        }, with_name="Momentum4D")
-        #print(bjet1.behavior)
+        })
         # Store px, py, pz, and E into the self.events structure
         self.events["1st_jet"] = ak.with_field(self.events["1st_jet"], bjet1.px, "px")
         self.events["1st_jet"] = ak.with_field(self.events["1st_jet"], bjet1.py, "py")
         self.events["1st_jet"] = ak.with_field(self.events["1st_jet"], bjet1.pz, "pz")
         self.events["1st_jet"] = ak.with_field(self.events["1st_jet"], bjet1.E, "E")
 
-      #  print("1st_jet components:")
-     #   print("E:", ak.to_list(self.events["1st_jet"]["E"]))
-
-
         # Similarly for the 2nd b-jet
-        bjet2 = ak.zip({
-             "pt": self.events["2nd_jet"]["pt_regressed"],
+        bjet2 = vector.zip({
+             "pt": self.events["2nd_jet"]["pt"],
              "eta": self.events["2nd_jet"]["eta"],
              "phi": self.events["2nd_jet"]["phi"],
              "mass": self.events["2nd_jet"]["mass"]
-        }, with_name="Momentum4D")
+        })
 
         self.events["2nd_jet"] = ak.with_field(self.events["2nd_jet"], bjet2.px, "px")
         self.events["2nd_jet"] = ak.with_field(self.events["2nd_jet"], bjet2.py, "py")
@@ -491,36 +471,36 @@ class ttHbb_Run3(ttHbbBaseProcessor):
 
 
         
-        bjet3 = ak.zip({
-             "pt": self.events["3rd_jet"]["pt_regressed"],
+        bjet3 = vector.zip({
+             "pt": self.events["3rd_jet"]["pt"],
              "eta": self.events["3rd_jet"]["eta"],
              "phi": self.events["3rd_jet"]["phi"],
              "mass": self.events["3rd_jet"]["mass"]
-        }, with_name="Momentum4D")
+        })
 
         self.events["3rd_jet"] = ak.with_field(self.events["3rd_jet"], bjet3.px, "px")
         self.events["3rd_jet"] = ak.with_field(self.events["3rd_jet"], bjet3.py, "py")
         self.events["3rd_jet"] = ak.with_field(self.events["3rd_jet"], bjet3.pz, "pz")
         self.events["3rd_jet"] = ak.with_field(self.events["3rd_jet"], bjet3.E, "E")
         # Convert and store the four-momentum subfields for the 4th b-jet (2nd other b-jet)
-        bjet4 = ak.zip({
-             "pt": self.events["4th_jet"]["pt_regressed"],
+        bjet4 = vector.zip({
+             "pt": self.events["4th_jet"]["pt"],
              "eta": self.events["4th_jet"]["eta"],
              "phi": self.events["4th_jet"]["phi"],
              "mass": self.events["4th_jet"]["mass"]
-        }, with_name="Momentum4D")
+        })
 
         self.events["4th_jet"] = ak.with_field(self.events["4th_jet"], bjet4.px, "px")
         self.events["4th_jet"] = ak.with_field(self.events["4th_jet"], bjet4.py, "py")
         self.events["4th_jet"] = ak.with_field(self.events["4th_jet"], bjet4.pz, "pz")
         self.events["4th_jet"] = ak.with_field(self.events["4th_jet"], bjet4.E, "E")
 
-        bjet5 = ak.zip({
-             "pt": self.events["5th_jet"]["pt_regressed"],
+        bjet5 = vector.zip({
+             "pt": self.events["5th_jet"]["pt"],
              "eta": self.events["5th_jet"]["eta"],
              "phi": self.events["5th_jet"]["phi"],
              "mass": self.events["5th_jet"]["mass"]
-        }, with_name="Momentum4D")
+        })
 
         self.events["5th_jet"] = ak.with_field(self.events["5th_jet"], bjet5.px, "px")
         self.events["5th_jet"] = ak.with_field(self.events["5th_jet"], bjet5.py, "py")
@@ -536,12 +516,12 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["lepton_neg"] = self.events["LeptonGood"][lepton_neg_mask]
         
         # Convert and store four-momentum for the positively charged leptons
-        lepton_pos = ak.zip({
+        lepton_pos = vector.zip({
              "pt": self.events["lepton_pos"]["pt"],
              "eta": self.events["lepton_pos"]["eta"],
              "phi": self.events["lepton_pos"]["phi"],
              "mass": self.events["lepton_pos"]["mass"]
-        }, with_name="Momentum4D")
+        })
 
         self.events["lepton_pos"] = ak.with_field(self.events["lepton_pos"], lepton_pos.px, "px")
         self.events["lepton_pos"] = ak.with_field(self.events["lepton_pos"], lepton_pos.py, "py")
@@ -549,51 +529,22 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["lepton_pos"] = ak.with_field(self.events["lepton_pos"], lepton_pos.E, "E")
 
         # Convert and store four-momentum for the negatively charged leptons
-        lepton_neg = ak.zip({
+        lepton_neg = vector.zip({
              "pt": self.events["lepton_neg"]["pt"],
              "eta": self.events["lepton_neg"]["eta"],
              "phi": self.events["lepton_neg"]["phi"],
              "mass": self.events["lepton_neg"]["mass"]
-        }, with_name="Momentum4D")
+        })
 
         self.events["lepton_neg"] = ak.with_field(self.events["lepton_neg"], lepton_neg.px, "px")
         self.events["lepton_neg"] = ak.with_field(self.events["lepton_neg"], lepton_neg.py, "py")
         self.events["lepton_neg"] = ak.with_field(self.events["lepton_neg"], lepton_neg.pz, "pz")
         self.events["lepton_neg"] = ak.with_field(self.events["lepton_neg"], lepton_neg.E, "E")
-        #print(ak.to_list(self.events["lepton_neg"]["px"]))
         self.events["MET_few"] = ak.Array({
                              "pt": self.events["PuppiMET"]["pt"],
                              "phi": self.events["PuppiMET"]["phi"]
                              })
-        '''
-        # Create an array of the four leading jets
-        leading_jets = ak.zip({
-            "pt": ak.concatenate([
-                self.events["1st_jet"]["pt"],
-                self.events["2nd_jet"]["pt"],
-                self.events["3rd_jet"]["pt"],
-                self.events["4th_jet"]["pt"]
-            ], axis=1),
-            "eta": ak.concatenate([
-                self.events["1st_jet"]["eta"],
-                self.events["2nd_jet"]["eta"],
-                self.events["3rd_jet"]["eta"],
-                self.events["4th_jet"]["eta"]
-            ], axis=1),
-            "phi": ak.concatenate([
-                self.events["1st_jet"]["phi"],
-                self.events["2nd_jet"]["phi"],
-                self.events["3rd_jet"]["phi"],
-                self.events["4th_jet"]["phi"]
-            ], axis=1),
-            "mass": ak.concatenate([
-                self.events["1st_jet"]["mass"],
-                self.events["2nd_jet"]["mass"],
-                self.events["3rd_jet"]["mass"],
-                self.events["4th_jet"]["mass"]
-            ], axis=1),
-        }, with_name="Momentum4D")
-        '''
+
         # Get index combinations of lepton_pos and BJetGood
         lep_bjet_idx_pos = ak.argcartesian([self.events["lepton_pos"], self.events["BJetGood"]], axis=1)
         lep_pos = self.events["lepton_pos"][lep_bjet_idx_pos["0"]]
@@ -695,16 +646,18 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["m_jjj_maxpT"] = ak.values_astype(
             ak.where(has_ge3, ak.firsts(mjjj[idx_maxpt3]), np.nan), np.float64
         )
-        bscore = ak.values_astype(self.events["JetGood"].btagUParTAK4B, np.float64)        
+        bscore = ak.values_astype(getattr(self.events["JetGood"], self._btag_field), np.float64)
         # max b-tag score in event
         self.events["max_btag"] = ak.values_astype(ak.max(bscore, axis=1), np.float64)
-
-        # sum of top-4 b-tag scores
-        
-        idx_bdesc = ak.argsort(bscore, ascending=False)
         self.events["nBJets"] = ak.num(self.events["BJetGood"])
-        # ΔR between the two most b-like jets
+
+        # Single btag-descending ordering, reused below for all btag-rank
+        # and "two most b-like jets" quantities (DNN features).
+        idx_bdesc = ak.argsort(bscore, ascending=False)
+        b_sorted = bscore[idx_bdesc]
         jets_bsorted = self.events["JetGood"][idx_bdesc]
+
+        # ΔR between the two most b-like jets
         self.events["dR_top2_btag"] = ak.values_astype(
             ak.firsts(jets_bsorted[:, 0:1].delta_r(jets_bsorted[:, 1:2])), np.float64
         )
@@ -713,10 +666,6 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["ptjj_at_mH"] = ak.values_astype(
             ak.where(has_ge2, ak.firsts(ptjj[idx_closest]), np.nan), np.float64
         )
-
-        #bscore = ak.values_astype(self.events["JetGood"].btagUParTAK4B, np.float64)
-        idx_bdesc = ak.argsort(bscore, ascending=False)
-        b_sorted  = bscore[idx_bdesc]
 
         # Fill missing ranks with 0.0 when an event has <4 jets
         self.events["btag_rank1"] = ak.fill_none(ak.firsts(b_sorted[:, 0:1]), 0.0)
@@ -725,20 +674,7 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["btag_rank4"] = ak.fill_none(ak.firsts(b_sorted[:, 3:3+1]), 0.0)
 
         # sum of top-4 b-tag scores
-        idx_bdesc = ak.argsort(bscore, ascending=False)
-        b_sorted  = bscore[idx_bdesc]
         self.events["sum4_btag"] = ak.values_astype(ak.sum(b_sorted[:, :4], axis=1), np.float64)
-
-        # ΔR between the two most b-like jets
-        jets_bsorted = self.events["JetGood"][idx_bdesc]
-        self.events["dR_top2_btag"] = ak.values_astype(
-            ak.firsts(jets_bsorted[:, 0:1].delta_r(jets_bsorted[:, 1:2])), np.float64
-        )
-
-        # pT(jj) for the pair whose mass is closest to 125 GeV
-        self.events["ptjj_at_mH"] = ak.values_astype(
-            ak.where(has_ge2, ak.firsts(ptjj[idx_closest]), np.nan), np.float64
-        )
 
         # pT of the two most b-tag-like jets
         pt_b1 = jets_bsorted[:, 0:1].pt
@@ -873,23 +809,39 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["max_sum_weight_top_mass"] = ak.Array(results["max_sum_weight_top_mass_per_event"])
         self.events["max_sum_weight_W_mass"] = ak.Array(results["max_sum_weight_W_mass_per_event"])
         self.events["max_sum_weight_combination"] = ak.Array(results["max_sum_weight_combination_per_event"])
-        self.events["filtered_solutions_number"] = self.events["solutions_number"]
+
+        # "solutions_number" is per-combination (jagged: one entry per jet-pair
+        # hypothesis tried), not one value per event. "filtered_solutions_number"
+        # is the histogram-safe, reduced version — total number of solutions
+        # found across all combinations in the event (consistent with the
+        # total length of all_higgs_masses_per_event / all_weights_per_event
+        # per event). It was previously a bare alias of the jagged array,
+        # which is what crashed the "Solutions_Number" histogram (coll="events"
+        # axis expects exactly one value per event).
+        self.events["filtered_solutions_number"] = ak.values_astype(
+            ak.fill_none(ak.sum(self.events["solutions_number"], axis=1), 0),
+            np.int64,
+        )
 
         
         props_maxweight = compute_jet_pair_properties_all_events(
-            self.events, j_matched, q_matched, prefix="max_weight"
+            self.events, j_matched, q_matched, prefix="max_weight", btag_field=self._btag_field
         )
-        self.events["massreco_maxweight_correct_higgs_mass"] = ak.Array(props_maxweight["massreco_chosen_pair_correct_higgs_mass"])
-        self.events["correct_match_maxweight"] = ak.firsts(ak.Array(props_maxweight["correct_matches"]))
-        self.events["massreco_maxweight_correct_higgs_mass"] = ak.Array(props_maxweight["massreco_chosen_pair_correct_higgs_mass"])
-        self.events["massreco_maxweight_higgs_mass"]         = ak.Array(props_maxweight["massreco_chosen_pair_all_higgs_mass"])
-        self.events["massreco_maxweight_wrong_higgs_mass"]   = ak.Array(props_maxweight["massreco_chosen_pair_wrong_higgs_mass"])
-        self.events["massreco_maxweight_correct_dr"]         = ak.Array(props_maxweight["massreco_chosen_pair_correct_dr"])
-        self.events["massreco_maxweight_wrong_dr"]           = ak.Array(props_maxweight["massreco_chosen_pair_wrong_dr"])
-        self.events["correct_match_maxweight"]               = ak.firsts(ak.Array(props_maxweight["correct_matches"]))
-        self.events["massreco_maxweight_higgs_mass"] = ak.Array(props_maxweight["massreco_chosen_pair_all_higgs_mass"])
-        self.events["massreco_maxweight_correct_dr"] = ak.Array(props_maxweight["massreco_chosen_pair_correct_dr"])
-        self.events["massreco_maxweight_wrong_dr"]   = ak.Array(props_maxweight["massreco_chosen_pair_wrong_dr"])
+        self.events["correct_match_maxweight"]             = ak.firsts(ak.Array(props_maxweight["correct_matches"]))
+        # NOTE: compute_jet_pair_properties_all_events() returns these as a
+        # 0-or-1-entry list per event (one candidate "chosen pair" hit, or
+        # none). "correct_matches" above is reduced with ak.firsts() -- the
+        # rest were being stored bare, which is exactly what the SHAPE GUARD
+        # below was catching (var * float64 instead of one value/event).
+        # Reduced the same way, with NaN for events with no hit, consistent
+        # with the existing pt_jet2 / mbb_btag_top2 pattern in this file.
+        self.events["massreco_maxweight_correct_higgs_mass"] = ak.fill_none(ak.firsts(ak.Array(props_maxweight["massreco_chosen_pair_correct_higgs_mass"])), np.nan)
+        self.events["massreco_maxweight_higgs_mass"]       = ak.fill_none(ak.firsts(ak.Array(props_maxweight["massreco_chosen_pair_all_higgs_mass"])), np.nan)
+        self.events["massreco_maxweight_wrong_higgs_mass"] = ak.fill_none(ak.firsts(ak.Array(props_maxweight["massreco_chosen_pair_wrong_higgs_mass"])), np.nan)
+        self.events["massreco_maxweight_correct_dr"]       = ak.fill_none(ak.firsts(ak.Array(props_maxweight["massreco_chosen_pair_correct_dr"])), np.nan)
+        self.events["massreco_maxweight_wrong_dr"]         = ak.fill_none(ak.firsts(ak.Array(props_maxweight["massreco_chosen_pair_wrong_dr"])), np.nan)
+        self.events["massreco_maxweight_wrong_higgs_mass_2_jets"] = ak.fill_none(ak.firsts(ak.Array(props_maxweight["massreco_chosen_pair_wrong_higgs_mass_2_jets"])), np.nan)
+        self.events["massreco_maxweight_wrong_higgs_mass_1_jets"] = ak.fill_none(ak.firsts(ak.Array(props_maxweight["massreco_chosen_pair_wrong_higgs_mass_1_jets"])), np.nan)
         # =====================================================================
         # Step 2: Run DR criterion — selects best combination per event
         #         Stores all per-rank DR and Higgs mass variables for plots
@@ -949,7 +901,7 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         #         Gives correct_match_dr for plots + all the main analysis quantities
         # =====================================================================
         props = compute_jet_pair_properties_all_events(
-            self.events, j_matched, q_matched, prefix="dr"
+            self.events, j_matched, q_matched, prefix="dr", btag_field=self._btag_field
         )
 
         # correct_match_dr for DR plot comparison
@@ -959,20 +911,32 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["denominator"]         = ak.Array(props["denominators"])
         self.events["correct_match"]       = ak.Array(props["correct_matches"])
         self.events["correct_agreement"]   = ak.Array(props["correct_agreements"])
-        self.events["higgs_mass_truth_jets"] = ak.Array(props["higgs_mass_truth_jets"])
+        # Same reduction issue as props_maxweight above -- these come back as
+        # 0-or-1-entry lists per event from compute_jet_pair_properties_all_events().
+        # Only the fields actually bound to a coll="events" histogram axis
+        # (checked by the SHAPE GUARD below) are fixed here; the remaining
+        # props[...] fields further down (top_mass/W_mass/ttH_mass/jet_phi/
+        # jet_eta/jet_mult/delta_angle/delta_magn/pull_*/dr_top/lep_*/
+        # pt_assymetry, plus correct_match/numerator/denominator/
+        # correct_agreement above) are left as-is since nothing histograms
+        # them yet -- apply the same ak.fill_none(ak.firsts(...), ...)
+        # treatment to any of those before adding them to a histogram too.
+        self.events["higgs_mass_truth_jets"] = ak.fill_none(ak.firsts(ak.Array(props["higgs_mass_truth_jets"])), np.nan)
 
-        self.events["massreco_chosen_pair_all_higgs_mass"]          = ak.Array(props["massreco_chosen_pair_all_higgs_mass"])
-        self.events["massreco_chosen_pair_correct_higgs_mass"]      = ak.Array(props["massreco_chosen_pair_correct_higgs_mass"])
-        self.events["massreco_chosen_pair_wrong_higgs_mass"]        = ak.Array(props["massreco_chosen_pair_wrong_higgs_mass"])
-        self.events["massreco_chosen_pair_wrong_higgs_mass_2_jets"] = ak.Array(props["massreco_chosen_pair_wrong_higgs_mass_2_jets"])
-        self.events["massreco_chosen_pair_wrong_higgs_mass_1_jets"] = ak.Array(props["massreco_chosen_pair_wrong_higgs_mass_1_jets"])
+        self.events["massreco_chosen_pair_all_higgs_mass"]          = ak.fill_none(ak.firsts(ak.Array(props["massreco_chosen_pair_all_higgs_mass"])), np.nan)
+        self.events["massreco_chosen_pair_correct_higgs_mass"]      = ak.fill_none(ak.firsts(ak.Array(props["massreco_chosen_pair_correct_higgs_mass"])), np.nan)
+        self.events["massreco_chosen_pair_wrong_higgs_mass"]        = ak.fill_none(ak.firsts(ak.Array(props["massreco_chosen_pair_wrong_higgs_mass"])), np.nan)
+        self.events["massreco_chosen_pair_wrong_higgs_mass_2_jets"] = ak.fill_none(ak.firsts(ak.Array(props["massreco_chosen_pair_wrong_higgs_mass_2_jets"])), np.nan)
+        self.events["massreco_chosen_pair_wrong_higgs_mass_1_jets"] = ak.fill_none(ak.firsts(ak.Array(props["massreco_chosen_pair_wrong_higgs_mass_1_jets"])), np.nan)
         self.events["massreco_chosen_pair_correct_top_mass"]        = ak.Array(props["massreco_chosen_pair_correct_top_mass"])
         self.events["massreco_chosen_pair_wrong_top_mass"]          = ak.Array(props["massreco_chosen_pair_wrong_top_mass"])
         self.events["massreco_chosen_pair_correct_W_mass"]          = ak.Array(props["massreco_chosen_pair_correct_W_mass"])
         self.events["massreco_chosen_pair_wrong_W_mass"]            = ak.Array(props["massreco_chosen_pair_wrong_W_mass"])
         self.events["massreco_chosen_pair_correct_ttH_mass"]        = ak.Array(props["massreco_chosen_pair_correct_ttH_mass"])
         self.events["massreco_chosen_pair_wrong_ttH_mass"]          = ak.Array(props["massreco_chosen_pair_wrong_ttH_mass"])
-        self.events["massreco_chosen_pair_correct_jet_pt"]          = ak.Array(props["massreco_chosen_pair_correct_jet_pt"])
+        # massreco_chosen_pair_correct_jet_pt is NOT assigned as a flat
+        # coll="events" field -- it's a genuine 2-jet-per-event quantity
+        # (see CorrectChosenPairJets.pt below), so it's exposed there instead.
         self.events["massreco_chosen_pair_wrong_jet_pt"]            = ak.Array(props["massreco_chosen_pair_wrong_jet_pt"])
         self.events["massreco_chosen_pair_correct_jet_phi"]         = ak.Array(props["massreco_chosen_pair_correct_jet_phi"])
         self.events["massreco_chosen_pair_wrong_jet_phi"]           = ak.Array(props["massreco_chosen_pair_wrong_jet_phi"])
@@ -980,8 +944,8 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["massreco_chosen_pair_wrong_jet_eta"]           = ak.Array(props["massreco_chosen_pair_wrong_jet_eta"])
         self.events["massreco_chosen_pair_correct_jet_mult"]        = ak.Array(props["massreco_chosen_pair_correct_jet_mult"])
         self.events["massreco_chosen_pair_wrong_jet_mult"]          = ak.Array(props["massreco_chosen_pair_wrong_jet_mult"])
-        self.events["massreco_chosen_pair_correct_dr"]              = ak.Array(props["massreco_chosen_pair_correct_dr"])
-        self.events["massreco_chosen_pair_wrong_dr"]                = ak.Array(props["massreco_chosen_pair_wrong_dr"])
+        self.events["massreco_chosen_pair_correct_dr"]              = ak.fill_none(ak.firsts(ak.Array(props["massreco_chosen_pair_correct_dr"])), np.nan)
+        self.events["massreco_chosen_pair_wrong_dr"]                = ak.fill_none(ak.firsts(ak.Array(props["massreco_chosen_pair_wrong_dr"])), np.nan)
         self.events["massreco_chosen_pair_correct_delta_angle"]     = ak.Array(props["massreco_chosen_pair_correct_delta_angle"])
         self.events["massreco_chosen_pair_wrong_delta_angle"]       = ak.Array(props["massreco_chosen_pair_wrong_delta_angle"])
         self.events["massreco_chosen_pair_correct_delta_magn"]      = ak.Array(props["massreco_chosen_pair_correct_delta_magn"])
@@ -1021,6 +985,16 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         self.events["higgs_mass_rank3_wrong"]   = ak.Array(props_per_rank["higgs_mass_rank3_wrong"])
         self.events["higgs_mass_rank4_wrong"]   = ak.Array(props_per_rank["higgs_mass_rank4_wrong"])
         # Pull vector collections for histogramming
+        # NOTE on "pt": massreco_chosen_pair_correct_jet_pt is a genuine
+        # 2-entry-per-event list [pt(jet1), pt(jet2)] (single-nested, unlike
+        # pull_angle/pull_magn which are double-nested [[v1, v2]]). Do NOT
+        # run it through ak.firsts() -- that strips the 2-jet dimension
+        # itself and silently keeps only jet1's pt. Feeding it straight into
+        # this per-event 2-object collection (instead of a flat coll="events"
+        # scalar) is what preserves both jets. This is the first time
+        # CorrectChosenPairJets is used as a histogram coll (previously only
+        # pull_angle/pull_magn lived here for other purposes) -- worth a
+        # smoke-test check on a small chunk before trusting the numbers.
         self.events["CorrectChosenPairJets"] = ak.zip({
             "pull_angle": ak.fill_none(
                 ak.firsts(props["massreco_chosen_pair_correct_pull_angle"]), np.nan
@@ -1028,6 +1002,7 @@ class ttHbb_Run3(ttHbbBaseProcessor):
             "pull_magn": ak.fill_none(
                 ak.firsts(props["massreco_chosen_pair_correct_pull_magn"]), np.nan
             ),
+            "pt": ak.Array(props["massreco_chosen_pair_correct_jet_pt"]),
         }, with_name="PtEtaPhiMCandidate")
 
         self.events["WrongChosenPairJets"] = ak.zip({
@@ -1042,26 +1017,32 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         print(ak.type(self.events["CorrectChosenPairJets"].pull_angle))
 
         # =====================================================================
-        # Step 4: Acceptance and classification study
-        #         Uncomment when ready to histogram these variables
+        # Step 5: Acceptance and classification study
         # =====================================================================
-        param = compute_jet_pair_properties_all_events_4(self.events, j_matched, q_matched)
+        param = compute_jet_pair_properties_all_events_4(
+            self.events, j_matched, q_matched, btag_field=self._btag_field
+        )
 
+        # Same 0-or-1-entry-per-event issue as compute_jet_pair_properties_all_events()
+        # above. "pair_in_the_4leading*" are the categorical bins=4 axes
+        # (values 0-3); reduced to -1 for events with no truth pair so they
+        # fall outside the [0,4) range and are simply not counted, since
+        # overflow=underflow=False on those histogram axes.
         self.events["mass_reco_had_a_solution"]      = ak.Array(param["mass_reco_had_a_solution"])
-        self.events["pair_in_the_4leading"]          = ak.Array(param["pair_in_the_4leading"])
-        self.events["pair_in_the_4leadingbtagscore"] = ak.Array(param["pair_in_the_4leadingbtagscore"])
+        self.events["pair_in_the_4leading"]          = ak.fill_none(ak.firsts(ak.Array(param["pair_in_the_4leading"])), -1)
+        self.events["pair_in_the_4leadingbtagscore"] = ak.fill_none(ak.firsts(ak.Array(param["pair_in_the_4leadingbtagscore"])), -1)
         self.events["pair_phi_truth"]                = ak.Array(param["pair_phi_truth"])
         self.events["pair_eta_truth"]                = ak.Array(param["pair_eta_truth"])
-        self.events["pair_mass_truth"]               = ak.Array(param["pair_mass_truth"])
-        self.events["pair_dr_truth"]                 = ak.Array(param["pair_dr_truth"])
+        self.events["pair_mass_truth"]               = ak.fill_none(ak.firsts(ak.Array(param["pair_mass_truth"])), np.nan)
+        self.events["pair_dr_truth"]                 = ak.fill_none(ak.firsts(ak.Array(param["pair_dr_truth"])), np.nan)
+        # Debug: quick sanity check on how many events had no combinatoric solution
         n_mw_none = sum(1 for x in ak.to_list(self.events["max_weight_combination"]) if x is None)
         n_dr_none = sum(1 for x in ak.to_list(self.events["dr_combination"]) if x is None)
         print(f"max_weight_combination None: {n_mw_none}")
         print(f"dr_combination None: {n_dr_none}")
 
-
         # =====================================================================
-        # Step 5: Selected/rejected × correct/wrong mass per rank
+        # Step 6: Selected/rejected × correct/wrong mass per rank
         # =====================================================================
         props_srcw = compute_selected_rejected_correct_wrong(
             self.events, props, props_per_rank
@@ -1073,3 +1054,85 @@ class ttHbb_Run3(ttHbbBaseProcessor):
             self.events[f"higgs_mass_rank{r}_rejected_wrong"]   = ak.Array(props_srcw[f"higgs_mass_rank{r}_rejected_wrong"])
         self.events["higgs_mass_fallback_selected_correct"] = ak.Array(props_srcw["higgs_mass_fallback_selected_correct"])
         self.events["higgs_mass_fallback_selected_wrong"]   = ak.Array(props_srcw["higgs_mass_fallback_selected_wrong"])
+
+        # =====================================================================
+        # DEBUG: mass-reconstruction result check (first 6 events)
+        # Purely diagnostic — for each event shows which JetGood jets are
+        # truth-matched to the Higgs (provenance == 1), the jet pair chosen
+        # by the DR criterion and by the max-weight criterion, their
+        # reconstructed Higgs masses, and whether each was correct/wrong
+        # relative to truth. Does not touch any stored branch or the
+        # physics logic.
+        # =====================================================================
+        n_debug2 = min(6, len(self.events))
+        if n_debug2 > 0:
+            print(f"\n[DEBUG] Mass-reco result check — first {n_debug2} event(s)")
+            prov_dbg = q_matched.provenance[:n_debug2]
+            jpt_dbg = j_matched.pt[:n_debug2]
+            jeta_dbg = j_matched.eta[:n_debug2]
+            for iev in range(n_debug2):
+                prov_iev = ak.to_list(prov_dbg[iev])
+                pt_iev = ak.to_list(jpt_dbg[iev])
+                eta_iev = ak.to_list(jeta_dbg[iev])
+                higgs_truth_jets = [
+                    (round(pt, 1), round(eta, 2))
+                    for p, pt, eta in zip(prov_iev, pt_iev, eta_iev)
+                    if p == 1
+                ]
+                dr_combo = ak.to_list(self.events["dr_combination"][iev])
+                mw_combo = ak.to_list(self.events["max_weight_combination"][iev])
+                print(f"  Event {iev}:")
+                print(f"    truth Higgs-jet(s) [pt, eta] (provenance==1) : {higgs_truth_jets}")
+                print(f"    DR criterion  -> combination                 : {dr_combo}")
+                print(f"    DR criterion  -> reco Higgs mass              : {self.events['dr_higgs_mass'][iev]}")
+                print(f"    DR criterion  -> correct match?               : {bool(self.events['correct_match_dr'][iev])}")
+                print(f"    DR criterion  -> rank used                    : {self.events['rank_used'][iev]}")
+                print(f"    max-weight    -> combination                 : {mw_combo}")
+                print(f"    max-weight    -> reco Higgs mass              : {self.events['max_weight_higgs_mass'][iev]}")
+                print(f"    max-weight    -> correct match?               : {bool(self.events['correct_match_maxweight'][iev])}")
+
+        # =====================================================================
+        # SHAPE GUARD: fail fast, with the real field name, instead of the
+        # cryptic PocketCoffea crash in hist_manager.fill_histograms
+        # ("boolean index did not match indexed array along dimension 0").
+        # That crash happens when a "coll=events" histogram axis is fed a
+        # jagged (>1 entry per event) array instead of one value per event.
+        # Every field below is used as a coll="events" axis in
+        # mass_reco_histograms_base — each MUST be exactly one entry per
+        # event (a None is fine, a list is not). Since solve_ttbar_dilepton()
+        # and the DR-criterion helpers (custom_function.py /
+        # mass_reco_functions_mc.py) now run over the pT-ordered jets instead
+        # of the btag-ordered ones, it's very plausible one of them returns a
+        # nested/jagged result for some event topologies that didn't occur
+        # under btag ordering. This check pinpoints exactly which field and
+        # how many events are affected, without changing any values.
+        # =====================================================================
+        _histogram_event_fields = ["Aplanarity", "C_jet", "D_jet", "H4", "HT", "MET_phi", "MET_pt", "Njj_higgs_like", "centrality", "correct_match_dr", "correct_match_maxweight", "correct_match_rank1", "correct_match_rank2", "correct_match_rank3", "correct_match_rank4", "dR_b1_b2", "dR_top2_btag", "dRjj_min", "deta_max", "dnn_score", "filtered_solutions_number", "higgs_mass_fallback_selected_correct", "higgs_mass_fallback_selected_wrong", "higgs_mass_rank1_correct", "higgs_mass_rank1_rejected_correct", "higgs_mass_rank1_rejected_wrong", "higgs_mass_rank1_selected_correct", "higgs_mass_rank1_selected_wrong", "higgs_mass_rank1_wrong", "higgs_mass_rank2_correct", "higgs_mass_rank2_rejected_correct", "higgs_mass_rank2_rejected_wrong", "higgs_mass_rank2_selected_correct", "higgs_mass_rank2_selected_wrong", "higgs_mass_rank2_wrong", "higgs_mass_rank3_correct", "higgs_mass_rank3_rejected_correct", "higgs_mass_rank3_rejected_wrong", "higgs_mass_rank3_selected_correct", "higgs_mass_rank3_selected_wrong", "higgs_mass_rank3_wrong", "higgs_mass_rank4_correct", "higgs_mass_rank4_rejected_correct", "higgs_mass_rank4_rejected_wrong", "higgs_mass_rank4_selected_correct", "higgs_mass_rank4_selected_wrong", "higgs_mass_rank4_wrong", "higgs_mass_truth_jets", "m_higgs_like_jj", "m_jjj_maxpT", "massreco_chosen_pair_all_higgs_mass", "massreco_chosen_pair_correct_dr", "massreco_chosen_pair_correct_higgs_mass", "massreco_chosen_pair_higgs_mass", "massreco_chosen_pair_wrong_dr", "massreco_chosen_pair_wrong_higgs_mass", "massreco_chosen_pair_wrong_higgs_mass_1_jets", "massreco_chosen_pair_wrong_higgs_mass_2_jets", "massreco_maxweight_correct_dr", "massreco_maxweight_correct_higgs_mass", "massreco_maxweight_higgs_mass", "massreco_maxweight_wrong_dr", "massreco_maxweight_wrong_higgs_mass", "massreco_maxweight_wrong_higgs_mass_1_jets", "massreco_maxweight_wrong_higgs_mass_2_jets", "max_weight", "max_weight_higgs_mass", "mbb_btag_top2", "pT_higgs_like", "pair_dr_truth", "pair_in_the_4leading", "pair_in_the_4leadingbtagscore", "pair_mass_truth", "pt_jet2", "pt_ratio_b1_b2", "ptjj_at_dRmin", "ptjj_at_mH", "rank_used", "sum4_btag", "sum_m_jets", "sum_pt_b1b2", "sum_pt_b1b2_over_HT"]
+        n_events = len(self.events)
+        bad_fields = []
+        for fname in _histogram_event_fields:
+            if fname not in ak.fields(self.events):
+                continue
+            farr = self.events[fname]
+            ftype = str(ak.type(farr))
+            is_jagged = "var *" in ftype
+            wrong_len = len(farr) != n_events
+            if is_jagged or wrong_len:
+                bad_fields.append((fname, ftype, len(farr)))
+
+        if bad_fields:
+            details = "\n".join(
+                f"    - '{name}': type={ftype}, len={flen} (expected {n_events}, "
+                f"flat one-value-per-event)"
+                for name, ftype, flen in bad_fields
+            )
+            raise RuntimeError(
+                "[SHAPE GUARD] The following field(s) bound for coll='events' "
+                "histogram axes are NOT flat/one-value-per-event, which is what "
+                "crashes PocketCoffea's fill_histograms downstream:\n"
+                f"{details}\n"
+                "These come from solve_ttbar_dilepton()/DR-criterion helpers in "
+                "custom_function.py / mass_reco_functions_mc.py. Check those "
+                "functions for an assumption tied to the previous btag-ordered "
+                "jet selection that no longer holds under pT ordering."
+            )
