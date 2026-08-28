@@ -172,7 +172,18 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         # Resolved once here (not per-chunk): a single Configurator run covers
         # one era, set via `parameters["year"] = ...` in config.py, e.g. "2024",
         # "2022_preEE", "2022_postEE", "2023_preBPix", "2023_postBPix".
-        
+        self._year = self.params.get("year", "2024")
+        try:
+            self.btag_branch = self.params["btagging"]["working_point"][self._year]["btagging_algorithm"]
+        except (KeyError, TypeError) as e:
+            raise KeyError(
+                f"Could not resolve the btag algorithm for year='{self._year}' from "
+                f"self.params['btagging']['working_point'][\"{self._year}\"]['btagging_algorithm']. "
+                f"Make sure `parameters[\"year\"] = <era>` is set in config.py (matching a "
+                f"key in btagging_fixedWP_Run3_DL.yaml, e.g. '2024', '2022_preEE', "
+                f"'2022_postEE', '2023_preBPix', '2023_postBPix') and that file is included "
+                f"in defaults.merge_parameters_from_files(...)."
+            ) from e
 
     def apply_object_preselection(self, variation):
         super().apply_object_preselection(variation=variation)
@@ -244,35 +255,6 @@ class ttHbb_Run3(ttHbbBaseProcessor):
         # listed in has_higgs_truth_samples (config params) is False.
         sample_name = self.events.metadata.get("sample", None)
         self.has_higgs_truth = sample_name in self._signal_samples
-
-        # --- Era-dependent btag algorithm ---
-        # btagUParTAK4B (UParT) is only correct for 2024. For 2022/2023 (and
-        # 2018, once configured) the right branch differs -- e.g.
-        # btagRobustParTAK4B for 2022/2023 -- per the working_point block in
-        # btagging_fixedWP_Run3_DL.yaml (self.params["btagging"]["working_point"]).
-        # MUST be resolved per chunk, not once in __init__: __init__ runs once
-        # for the whole job/worker, before any chunk (and therefore any
-        # per-sample metadata) exists, and a single job can process chunks
-        # from MULTIPLE eras (e.g. a 2022_preEE sample and a 2023_postBPix
-        # sample in the same run). Resolving it in __init__ from
-        # self.params.get("year", "2024") is exactly what caused the crash:
-        # self.params has no top-level "year" key at all (year lives in each
-        # chunk's events.metadata, not in the job-level params), so that
-        # lookup silently fell through to the "2024" default on every chunk,
-        # regardless of the chunk's actual era -- hence
-        # ValueError: key "btagUParTAK4B" does not exist (not in record)
-        # on non-2024 samples, whose JetGood only has btagRobustParTAK4B.
-        self._year = self.events.metadata.get("year")
-        try:
-            self.btag_branch = self.params["btagging"]["working_point"][self._year]["btagging_algorithm"]
-        except (KeyError, TypeError) as e:
-            raise KeyError(
-                f"Could not resolve the btag algorithm for year='{self._year}' from "
-                f"self.params['btagging']['working_point'][\"{self._year}\"]['btagging_algorithm']. "
-                f"Make sure this dataset's metadata sets \"year\" to a key present in "
-                f"btagging_fixedWP_Run3_DL.yaml, e.g. '2024', '2022_preEE', "
-                f"'2022_postEE', '2023_preBPix', '2023_postBPix'."
-            ) from e
 
         # Compute deltaR(b, b) of all possible b-jet pairs.
         # We require deltaR > 0 to exclude the deltaR between the jets with themselves

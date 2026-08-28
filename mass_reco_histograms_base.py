@@ -1,5 +1,6 @@
 from pocket_coffea.parameters.histograms import Axis, HistConf, count_hist
 
+_MASS_BINS = [60,80,90,100,110,120,130,140,150,170,210,300,450,600]
 mass_reco_histograms_base = {
 
     # =========================================================================
@@ -151,8 +152,12 @@ mass_reco_histograms_base = {
     ]),
     "Max_Weight_Higgs_Mass": HistConf([
         Axis(coll="events", field="max_weight_higgs_mass", pos=None,
-             bins=[0,20,40,60,80,100,120,140,160,180,200,230,260,300,350,425,500],
-             start=0, stop=1000,
+             bins=100, start=0, stop=1000,
+             label="Max Weight Higgs Mass [GeV]", overflow=True, underflow=True)
+    ]),
+    "Max_Weight_Higgs_Mass_1": HistConf([
+        Axis(coll="events", field="max_weight_higgs_mass", pos=None,
+             bins=_MASS_BINS, start=0, stop=600,
              label="Max Weight Higgs Mass [GeV]", overflow=True, underflow=True)
     ]),
     "Solutions_Number": HistConf([
@@ -167,7 +172,7 @@ mass_reco_histograms_base = {
     ]),
     "Massreco_chosen_pair_higgs_mass_1": HistConf([
         Axis(coll="events", field="massreco_chosen_pair_higgs_mass", pos=None,
-             bins=30, start=0, stop=500,
+             bins=_MASS_BINS, start=0, stop=600,
              label="DR Criterion Higgs Mass [GeV]", overflow=True, underflow=True)
     ]),
     "Massreco_chosen_pair_higgs_mass_2": HistConf([

@@ -29,44 +29,40 @@ import mass_reco_histograms_dr_study
 from mass_reco_histograms_base import mass_reco_histograms_base as base_hists
 from mass_reco_histograms_truth import mass_reco_histograms_truth as truth_hists
 from mass_reco_histograms_dr_study import mass_reco_histograms_dr_study as dr_hists
-
+import dileptonic_presel_functions
 
 default_parameters = defaults.get_default_parameters()
 defaults.register_configuration_dir("config_dir", localdir+"/params")
 
 categories_dict = {
-    "baseline_all" :[passthrough],
-    "baseline_all_atleast3bjets" :[get_nObj_min(3, 15., "BJetGood")],
     "baseline_all_atleast4bjets" :[get_nObj_min(4, 15., "BJetGood")],
-    "baseline_all_atleast2bjets": [get_nObj_min(2, 15., "BJetGood")],
 }
 
-
-
-year = "2024"
+year = "2023_preBPix"
 parameters = defaults.merge_parameters_from_files(default_parameters,
                                                   f"{localdir}/params/object_preselection.yaml",
                                                   f"{localdir}/params/hlt_triggers_Run3_DL.yaml",
                                                   f"{localdir}/params/variations.yaml",
                                                   f"{localdir}/params/jets_calibration_Run3_DL.yaml",
-                                                  f"{localdir}/params/btagging_fixedWP_Run3_DL.yaml",
+                                                  f"{localdir}/params/btagging_fixedWP_Run3_DLPOL.yaml",
                                                   f"{localdir}/params/btagSF_calibration.yaml",
                                                   f"{localdir}/params/lepton_scale_factors_Run3_DL.yaml",
                                                   update=True)
+parameters["has_higgs_truth_samples"] = ["TTH_Hto2B"]
 parameters["run_period"] = "Run3"
 
 cfg = Configurator(
     parameters = parameters,
     datasets = {
         "jsons":[
-			f"{localdir}/datasets_24/Run3_DATA_2024.json",
-            f"{localdir}/datasets_24/Run3_MC_2024_Ttbar.json",
+			f"{localdir}/datasets_24/files_skim_22_23_DL.json",
+            f"{localdir}/datasets_24/files_skim_22_23_DL.json",
             #f"{localdir}/datasets/Run3_MC_ttBkg.json", #notDesy
 			#f"{localdir}/datasets/Run3_MC_otherBKG.json", #notDesy
 		],
         "filter" : {
             "samples": [
-
+          #      "TTTo2L2Nu",
                 "TTH_Hto2B",
             ],
        #     "samples_exclude" : [],
@@ -112,22 +108,27 @@ cfg = Configurator(
      **categories_dict,
         
     },
-       weights_classes = common.common_weights,
+       weights_classes = common.common_weights + [SF_btag_fixed_wp, SF_top_pt, SF_trigger_DL, SF_calibration_only_ttsplit_FixedWp],
        weights = {
         "common": {
-            "inclusive": [ #"genWeight",
-                           #"lumi",
-                           #"XS",
-                           #"pileup",
+            "inclusive": [# "genWeight",
+                          # "lumi",
+                         #  "XS",
+                        #   "pileup",
+                       #    "sf_ele_reco",
+			#	  "sf_ele_id",
+			#	  "sf_mu_id",
+			#	  "sf_mu_iso",
+            #      "sf_trigger_DL",
+            #      "sf_btag_fixed_wp"
 
                           ],
             "bycategory" : {
             }
         },
-        "bysample": { 
-            
-            "TTTo2L2Nu": {
-                "inclusive": [],
+         "bysample": {
+	        "TTTo2L2Nu": {
+        	    "inclusive": ["sf_top_pt"],
             },
             "TTToLNu2Q": {
                 "inclusive": [],
@@ -170,7 +171,7 @@ cfg = Configurator(
 variables = {
     **base_hists,
     **truth_hists,
-    **dr_hists,
+#    **dr_hists,
 }
 )
  
@@ -186,7 +187,7 @@ run_options = {
         "mem_per_worker" : "4GB", # GB
         "disk_per_worker" : "1GB", # GB
         "exclusive"      : False,
-        "chunk"          : 200000,
+        "chunk"          : 10000,
         "retries"        : 50,
         "treereduction"  : 20,
         "adapt"          : False,
@@ -206,3 +207,4 @@ if "dask"  in run_options["executor"]:
     cloudpickle.register_pickle_by_value(mass_reco_histograms_base)
     cloudpickle.register_pickle_by_value(mass_reco_histograms_truth)
     cloudpickle.register_pickle_by_value(mass_reco_histograms_dr_study)
+    cloudpickle.register_pickle_by_value(dileptonic_presel_functions)
