@@ -1325,7 +1325,39 @@ def get_original_jet_idx(events, event_idx, hj):
     else:
         return None
 
-def compute_jet_pair_properties_all_events(events, j_matched, q_matched, prefix="max_weight"):
+
+def get_solver_jet_indices(events, event_idx):
+    """
+    Returns the JetGood-array indices of the jets actually available to
+    solve_ttbar_dilepton()'s combinatorics for this event.
+
+    Reads events["1st_jet_idx".."4th_jet_idx"] -- whichever ordering
+    criterion workflow_mc.py used to build them (pT now, previously
+    btag) -- instead of independently recomputing a hardcoded btag-based
+    top-4. This keeps the acceptance check (could the solver possibly
+    have found the truth pair?) automatically consistent with whatever
+    jets the solver was actually given.
+
+    Only the first 4 are included: solve_ttbar_dilepton() hardcodes
+    n_jets = 4 for its combinatorics loop, so even though a 5th jet is
+    sometimes appended to its local `jets` list, it is never actually
+    reached by `for i in range(n_jets)` (range(4)). If that n_jets bound
+    is ever changed to use the 5th jet too, "5th_jet_idx" should be added
+    here as well.
+    """
+    idx_fields = ["1st_jet_idx", "2nd_jet_idx", "3rd_jet_idx", "4th_jet_idx"]
+    indices = []
+    for f in idx_fields:
+        if f not in ak.fields(events):
+            continue
+        val = events[f][event_idx]
+        if val is None:
+            continue
+        indices.append(int(val))
+    return indices
+
+
+def compute_jet_pair_properties_all_events(events, j_matched, q_matched, prefix="max_weight", btag_branch="btagUParTAK4B"):
 
     pair_phi, pair_eta, pair_mass, pair_pt, pair_indices, pair_dr = [], [], [], [], [], []
     original_jet_pair_indices = []
@@ -1445,19 +1477,21 @@ def compute_jet_pair_properties_all_events(events, j_matched, q_matched, prefix=
             skip_event()
             continue
 
-        # --- Step 2: require ≥4 jets with valid btag scores (use UParTAK4B consistently) ---
-        btag_scores = ak.to_numpy(events["JetGood"]["btagUParTAK4B"][event_idx])
-        if len(btag_scores) < 4:
+        # --- Step 2: require the solver actually had >=4 jet candidates ---
+        solver_jet_indices = get_solver_jet_indices(events, event_idx)
+        if len(solver_jet_indices) < 4:
             skip_event()
             continue
 
-        # --- Step 3: require both truth jets are among top-4 btag-scored jets ---
-        top4_btagged_indices = np.argsort(-btag_scores)[:4]
+        # --- Step 3: require both truth jets are among the jets the solver
+        #     actually received (events["1st_jet_idx".."4th_jet_idx"] --
+        #     whichever ordering criterion is active in workflow_mc.py: pT
+        #     now, previously btag) ---
         jet0, jet1 = selected_jet_pair
-        both_in_top4 = jet0 in top4_btagged_indices and jet1 in top4_btagged_indices
+        both_in_top4 = jet0 in solver_jet_indices and jet1 in solver_jet_indices
         if event_idx < 5:
             print(f"  [Event {event_idx}] truth_jets={selected_jet_pair}, "
-                  f"top4_btag_idx={top4_btagged_indices.tolist()}, "
+                  f"solver_jet_idx={solver_jet_indices}, "
                   f"both_in_top4={both_in_top4}")
         if not both_in_top4:
             skip_event()
@@ -1732,8 +1766,8 @@ def compute_jet_pair_properties_all_events(events, j_matched, q_matched, prefix=
                 massreco_chosen_pair_wrong_jet_eta     = events["JetGood"]["eta"][event_idx][original_hj2]
                 massreco_chosen_pair_correct_jet_phi   = events["JetGood"]["phi"][event_idx][original_hj1]
                 massreco_chosen_pair_wrong_jet_phi     = events["JetGood"]["phi"][event_idx][original_hj2]
-                massreco_chosen_pair_correct_jet_btag_score = events["JetGood"]["btagUParTAK4B"][event_idx][original_hj1]
-                massreco_chosen_pair_wrong_jet_btag_score   = events["JetGood"]["btagUParTAK4B"][event_idx][original_hj2]
+                massreco_chosen_pair_correct_jet_btag_score = events["JetGood"][btag_branch][event_idx][original_hj1]
+                massreco_chosen_pair_wrong_jet_btag_score   = events["JetGood"][btag_branch][event_idx][original_hj2]
 
         # ----- case: second jet matched, first wrong -----
         elif first_match == 0. and second_match == 1.:
@@ -1762,8 +1796,8 @@ def compute_jet_pair_properties_all_events(events, j_matched, q_matched, prefix=
                 massreco_chosen_pair_wrong_jet_eta     = events["JetGood"]["eta"][event_idx][original_hj1]
                 massreco_chosen_pair_correct_jet_phi   = events["JetGood"]["phi"][event_idx][original_hj2]
                 massreco_chosen_pair_wrong_jet_phi     = events["JetGood"]["phi"][event_idx][original_hj1]
-                massreco_chosen_pair_correct_jet_btag_score = events["JetGood"]["btagUParTAK4B"][event_idx][original_hj2]
-                massreco_chosen_pair_wrong_jet_btag_score   = events["JetGood"]["btagUParTAK4B"][event_idx][original_hj1]
+                massreco_chosen_pair_correct_jet_btag_score = events["JetGood"][btag_branch][event_idx][original_hj2]
+                massreco_chosen_pair_wrong_jet_btag_score   = events["JetGood"][btag_branch][event_idx][original_hj1]
 
         # ----- case: neither jet matched (FIX D: separate if block, not elif) -----
         # Note: this is now a separate if, correctly independent of the above elif chain
@@ -1793,8 +1827,8 @@ def compute_jet_pair_properties_all_events(events, j_matched, q_matched, prefix=
                 massreco_chosen_pair_wrong_jet_eta_second = events["JetGood"]["eta"][event_idx][original_hj2]
                 massreco_chosen_pair_wrong_jet_phi        = events["JetGood"]["phi"][event_idx][original_hj1]
                 massreco_chosen_pair_wrong_jet_phi_second = events["JetGood"]["phi"][event_idx][original_hj2]
-                massreco_chosen_pair_wrong_jet_btag_score        = events["JetGood"]["btagUParTAK4B"][event_idx][original_hj1]
-                massreco_chosen_pair_wrong_jet_btag_score_second = events["JetGood"]["btagUParTAK4B"][event_idx][original_hj2]
+                massreco_chosen_pair_wrong_jet_btag_score        = events["JetGood"][btag_branch][event_idx][original_hj1]
+                massreco_chosen_pair_wrong_jet_btag_score_second = events["JetGood"][btag_branch][event_idx][original_hj2]
 
         # ----- case: both jets matched (FIX D: separate if, was unreachable elif) -----
         if first_match == 1. and second_match == 1.:
@@ -1804,8 +1838,8 @@ def compute_jet_pair_properties_all_events(events, j_matched, q_matched, prefix=
             massreco_chosen_pair_correct_jet_eta_second   = events["JetGood"]["eta"][event_idx][original_hj2]
             massreco_chosen_pair_correct_jet_phi          = events["JetGood"]["phi"][event_idx][original_hj1]
             massreco_chosen_pair_correct_jet_phi_second   = events["JetGood"]["phi"][event_idx][original_hj2]
-            massreco_chosen_pair_correct_jet_btag_score        = events["JetGood"]["btagUParTAK4B"][event_idx][original_hj1]
-            massreco_chosen_pair_correct_jet_btag_score_second = events["JetGood"]["btagUParTAK4B"][event_idx][original_hj2]
+            massreco_chosen_pair_correct_jet_btag_score        = events["JetGood"][btag_branch][event_idx][original_hj1]
+            massreco_chosen_pair_correct_jet_btag_score_second = events["JetGood"][btag_branch][event_idx][original_hj2]
             massreco_chosen_pair_correct_higgs_mass  = events[f"{prefix}_higgs_mass"][event_idx]
             massreco_chosen_pair_all_higgs_mass      = events[f"{prefix}_higgs_mass"][event_idx]
             massreco_chosen_pair_correct_top_mass    = events[f"{prefix}_top_mass"][event_idx]
@@ -2049,7 +2083,7 @@ def compute_pair_kinematics_simple(jet1, jet2):
     return phi_avg, eta_avg, mass, dr
 
 
-def compute_jet_pair_properties_all_events_4(events, j_matched, q_matched):
+def compute_jet_pair_properties_all_events_4(events, j_matched, q_matched, btag_branch="btagUParTAK4B"):
     """
     Diagnostic function with three goals:
 
@@ -2117,23 +2151,18 @@ def compute_jet_pair_properties_all_events_4(events, j_matched, q_matched):
             pair_dr_truth.append([])
             pair_indices_truth.append([])
 
-        # --- Goal 1: acceptance study ---
-        # Check 1a: are truth jets among top-4 pt-sorted jets?
-        # q_matched indices run over the jets passed to object_matching,
-        # which are JetGood sorted by btag score. So pt_sorted_indices
-        # would need to be the top-4 by pT within that set.
-        # Since you pass btag-sorted jets to mass reco, the relevant
-        # question is actually the btag check (1b). Keep 1a as a
-        # simple index-range check for reference.
+        # --- Goal 1: acceptance study (diagnostics only, both orderings) ---
+        # Check 1a: are truth jets among the top-4 pT-sorted JetGood jets?
         if has_truth:
-            in_top4_pt = (truth_pair[0] <= 3 and truth_pair[1] <= 3)
+            pt_scores = ak.to_numpy(events["JetGood"]["pt"][event_idx])
+            top4_pt_idx = np.argsort(-pt_scores)[:4]
+            in_top4_pt = (truth_pair[0] in top4_pt_idx and truth_pair[1] in top4_pt_idx)
             pair_in_the_4leading.append([2 if in_top4_pt else 1])
         else:
             pair_in_the_4leading.append([0])
 
-        # Check 1b: are truth jets among top-4 btag-scored jets?
-        # FIX: use btagUParTAK4B consistently
-        btag_scores = ak.to_numpy(events["JetGood"]["btagUParTAK4B"][event_idx])
+        # Check 1b: are truth jets among the top-4 btag-scored JetGood jets?
+        btag_scores = ak.to_numpy(events["JetGood"][btag_branch][event_idx])
         if len(btag_scores) >= 4:
             top4_btag_idx = np.argsort(-btag_scores)[:4]
             if has_truth:
@@ -2145,8 +2174,19 @@ def compute_jet_pair_properties_all_events_4(events, j_matched, q_matched):
         else:
             # fewer than 4 jets: truth jets cannot both be in top-4
             pair_in_the_4leadingbtagscore.append([0])
-            # still need to classify reco outcome below, so define in_top4_btag
-            in_top4_btag = False
+
+        # --- Acceptance gate for Goal 2: were the truth jets among the
+        #     jets the solver actually received? This uses events["1st_jet_idx"
+        #     .."4th_jet_idx"] -- whichever ordering criterion is active in
+        #     workflow_mc.py (pT now, previously btag) -- instead of a
+        #     hardcoded btag re-derivation, so it stays consistent with
+        #     whatever the solver could actually see. (pair_in_the_4leading /
+        #     pair_in_the_4leadingbtagscore above remain independent,
+        #     ordering-specific diagnostics for comparison.)
+        solver_jet_indices = get_solver_jet_indices(events, event_idx)
+        in_solver_candidates = has_truth and (
+            truth_pair[0] in solver_jet_indices and truth_pair[1] in solver_jet_indices
+        )
 
         # --- Goal 2: mass reco outcome classification ---
         if not has_truth and not has_reco:
@@ -2159,12 +2199,11 @@ def compute_jet_pair_properties_all_events_4(events, j_matched, q_matched):
             mass_reco_had_a_solution.append([4])  # no truth, reco found
 
         elif has_truth and has_reco:
-            if not in_top4_btag:
-                # truth jets not in top-4 btag: reco could not have found them
+            if not in_solver_candidates:
+                # truth jets weren't both given to the solver: it could not have found them
                 mass_reco_had_a_solution.append([3])
             else:
-                # truth jets in top-4 btag: check if reco got it right
-                # FIX: use get_original_jet_idx correctly
+                # truth jets were both given to the solver: check if reco got it right
                 hj1 = reco_combination["2"]
                 hj2 = reco_combination["3"]
                 original_hj1 = get_original_jet_idx(events, event_idx, hj1)
@@ -2196,18 +2235,18 @@ def compute_jet_pair_properties_all_events_4(events, j_matched, q_matched):
     total = len(events)
     print(f"\n=== compute_jet_pair_properties_all_events_4 ===")
     print(f"  Total events : {total}")
-    print(f"  Code 0 (no truth, no reco)                    : {counts.get(0,0)}  ({100*counts.get(0,0)/max(1,total):.1f}%)")
-    print(f"  Code 1 (truth found, reco FAILED)             : {counts.get(1,0)}  ({100*counts.get(1,0)/max(1,total):.1f}%)")
-    print(f"  Code 3 (truth found, truth NOT in top-4 btag) : {counts.get(3,0)}  ({100*counts.get(3,0)/max(1,total):.1f}%)")
-    print(f"  Code 4 (no truth, reco found)                 : {counts.get(4,0)}  ({100*counts.get(4,0)/max(1,total):.1f}%)")
-    print(f"  Code 5 (truth in top-4, reco CORRECT)         : {counts.get(5,0)}  ({100*counts.get(5,0)/max(1,total):.1f}%)")
-    print(f"  Code 6 (truth in top-4, reco WRONG)           : {counts.get(6,0)}  ({100*counts.get(6,0)/max(1,total):.1f}%)")
+    print(f"  Code 0 (no truth, no reco)                       : {counts.get(0,0)}  ({100*counts.get(0,0)/max(1,total):.1f}%)")
+    print(f"  Code 1 (truth found, reco FAILED)                : {counts.get(1,0)}  ({100*counts.get(1,0)/max(1,total):.1f}%)")
+    print(f"  Code 3 (truth found, truth NOT in solver's jets) : {counts.get(3,0)}  ({100*counts.get(3,0)/max(1,total):.1f}%)")
+    print(f"  Code 4 (no truth, reco found)                    : {counts.get(4,0)}  ({100*counts.get(4,0)/max(1,total):.1f}%)")
+    print(f"  Code 5 (truth in solver's jets, reco CORRECT)    : {counts.get(5,0)}  ({100*counts.get(5,0)/max(1,total):.1f}%)")
+    print(f"  Code 6 (truth in solver's jets, reco WRONG)      : {counts.get(6,0)}  ({100*counts.get(6,0)/max(1,total):.1f}%)")
 
     n_truth_in_top4 = counts.get(1,0) + counts.get(5,0) + counts.get(6,0)
     n_reco_attempted = counts.get(5,0) + counts.get(6,0)
     print(f"  --- Acceptance ---")
-    print(f"  Truth jets in top-4 btag  : {n_truth_in_top4}/{total}  ({100*n_truth_in_top4/max(1,total):.1f}%)")
-    print(f"  Reco efficiency (of events with truth in top-4 and reco solution) : "
+    print(f"  Truth jets available to solver : {n_truth_in_top4}/{total}  ({100*n_truth_in_top4/max(1,total):.1f}%)")
+    print(f"  Reco efficiency (of events with truth available to solver and a reco solution) : "
           f"{counts.get(5,0)}/{max(1,n_reco_attempted)}  "
           f"({100*counts.get(5,0)/max(1,n_reco_attempted):.1f}%)")
 
@@ -2272,19 +2311,19 @@ def compute_jet_pair_properties_per_rank(events, j_matched, q_matched):
                 higgs_mass_wrong_per_rank[r].append(None)
             continue
 
-        # --- Step 2: require >=4 jets ---
-        btag_scores = ak.to_numpy(events["JetGood"]["btagUParTAK4B"][event_idx])
-        if len(btag_scores) < 4:
+        # --- Step 2: require the solver actually had >=4 jet candidates ---
+        solver_jet_indices = get_solver_jet_indices(events, event_idx)
+        if len(solver_jet_indices) < 4:
             for r in RANK_NAMES:
                 correct_match_per_rank[r].append(None)
                 higgs_mass_correct_per_rank[r].append(None)
                 higgs_mass_wrong_per_rank[r].append(None)
             continue
 
-        # --- Step 3: require both truth jets in top-4 btag ---
-        top4_btagged_indices = np.argsort(-btag_scores)[:4]
+        # --- Step 3: require both truth jets are among the jets the solver
+        #     actually received (pT-ordered now, previously btag) ---
         jet0, jet1 = selected_jet_pair
-        if not (jet0 in top4_btagged_indices and jet1 in top4_btagged_indices):
+        if not (jet0 in solver_jet_indices and jet1 in solver_jet_indices):
             for r in RANK_NAMES:
                 correct_match_per_rank[r].append(None)
                 higgs_mass_correct_per_rank[r].append(None)

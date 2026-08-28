@@ -1,4 +1,3 @@
-
 jets_calibration:
   apply_jec_nominal:  # this is needed to know which collection is corrected with which jet factory
     2016_PreVFP: True
@@ -85,3 +84,138 @@ jets_calibration:
     2023_postBPix:
       AK4PFchs: ["jec", "jer"]
       AK8PFPuppi: ["jec"]
+    # --- Jet pT regression (2022-2024) ---
+    # Variations for the AK4PFPuppiPNetRegression jet type (the regressed+recalibrated
+    # collection that now supplies "Jet"/JetGood for these years, see `collection` below).
+    # Following the official PocketCoffea recipe (docs/recipes.md, "Jet energy
+    # regression" section, PR #498): only JES_Total + JER, matching the framework's
+    # `total_variation` default used for plain AK4PFPuppi elsewhere in this analysis.
+    AK4PFPuppiPNetRegression:
+      2022_preEE:
+        - JES_Total
+        - JER
+      2022_postEE:
+        - JES_Total
+        - JER
+      2023_preBPix:
+        - JES_Total
+        - JER
+      2023_postBPix:
+        - JES_Total
+        - JER
+      "2024":
+        - JES_Total
+        - JER
+
+  # =====================================================================================
+  # Jet pT regression (2022_preEE - 2024) -- switches "Jet"/JetGood to the PNet-regressed
+  # + JEC/JER-recalibrated collection for every jet (single-collection, apply-to-all
+  # approach), for every Run3 year currently in this analysis. Regression is applied
+  # INSIDE the calibrator, before JEC, so JetGood.pt everywhere downstream
+  # (workflow_mc.py, object preselection, MET, etc.) is the final regressed+JEC value --
+  # no manual PNetRegPtRawCorr multiplication needed anywhere in analysis code.
+  #
+  # Using the visible-only correction (PNetRegPtRawCorr), NOT the "PlusNeutrino"
+  # variant: the dilepton mass reconstruction (custom_function.solve_ttbar_dilepton)
+  # uses PuppiMET directly to solve for the two W neutrinos, so adding
+  # PNetRegPtRawCorrNeutrino on top of the b-jets would double-count semileptonic
+  # decay-neutrino energy that's already reflected in the measured MET.
+  #
+  # Reference: pocket_coffea docs/recipes.md, "Jet energy regression" section
+  # (introduced in PR #498). JEC/JER source: the *experimental* JERC for regressed
+  # jets, https://cms-jerc.web.cern.ch/ExpJEC/ (JERC-reviewed, not yet centrally
+  # derived -- flag this as "experimental" in the analysis note). Per that page's
+  # placeholder table: for 2022/2023, L2L3Residual for PNet-regressed jets IS a
+  # dedicated derivation (not a placeholder) -- only JER + its uncertainty are still
+  # copied from the regular AK4PFPuppi corrections. For 2024, L2L3Residual/JER/Unc
+  # are ALL still placeholders copied from regular jets. Either way this will pick up
+  # dedicated regressed-jet corrections automatically as JERC publishes more of them,
+  # without any config change here.
+  # =====================================================================================
+
+  # Path to the experimental regressed-jet JERC files on CERN EOS (not CVMFS).
+  # If running outside CERN without EOS access, copy the relevant regJet_jerc.json.gz
+  # locally and point this at that copy instead.
+  path_to_JERC_PNetReg: '/eos/cms/store/group/phys_jetmet/ExpJEC/json_files_Reg/'
+
+  collection:
+    # Remove the default AK4PFPuppi -> "Jet" mapping so AK4PFPuppiPNetRegression
+    # is the only thing feeding the "Jet"/JetGood collection (avoids the
+    # "already calibrated" error from having two jet types both mapped to "Jet").
+    2022_preEE:
+      AK4PFPuppi: null
+      AK4PFPuppiPNetRegression: "Jet"
+      #AK4PFPuppiPNetRegressionPlusNeutrino: "Jet"   # not used, see note above
+    2022_postEE:
+      AK4PFPuppi: null
+      AK4PFPuppiPNetRegression: "Jet"
+      #AK4PFPuppiPNetRegressionPlusNeutrino: "Jet"
+    2023_preBPix:
+      AK4PFPuppi: null
+      AK4PFPuppiPNetRegression: "Jet"
+      #AK4PFPuppiPNetRegressionPlusNeutrino: "Jet"
+    2023_postBPix:
+      AK4PFPuppi: null
+      AK4PFPuppiPNetRegression: "Jet"
+      #AK4PFPuppiPNetRegressionPlusNeutrino: "Jet"
+    "2024":
+      AK4PFPuppi: null
+      AK4PFPuppiPNetRegression: "Jet"
+      #AK4PFPuppiPNetRegressionPlusNeutrino: "Jet"
+
+  apply_pt_regr_MC:
+    2022_preEE:
+      AK4PFPuppiPNetRegression: True
+    2022_postEE:
+      AK4PFPuppiPNetRegression: True
+    2023_preBPix:
+      AK4PFPuppiPNetRegression: True
+    2023_postBPix:
+      AK4PFPuppiPNetRegression: True
+    "2024":
+      AK4PFPuppiPNetRegression: True
+
+  apply_pt_regr_Data:
+    2022_preEE:
+      AK4PFPuppiPNetRegression: True
+    2022_postEE:
+      AK4PFPuppiPNetRegression: True
+    2023_preBPix:
+      AK4PFPuppiPNetRegression: True
+    2023_postBPix:
+      AK4PFPuppiPNetRegression: True
+    "2024":
+      AK4PFPuppiPNetRegression: True
+
+  jet_types:
+    AK4PFPuppiPNetRegression:
+      2022_preEE:
+        json_path: "${jets_calibration.path_to_JERC_PNetReg}Run3Summer22_22Sep2023/latest/regJet_jerc.json.gz"
+        jec_mc: Summer22_22Sep2023_V4_MC
+        jec_data: Summer22_22Sep2023_V4_DATA
+        jer: Summer22_22Sep2023_JRV2_MC
+        level: L1L2L3Res
+      2022_postEE:
+        json_path: "${jets_calibration.path_to_JERC_PNetReg}Run3Summer22EE_22Sep2023/latest/regJet_jerc.json.gz"
+        jec_mc: Summer22EE_22Sep2023_V4_MC
+        jec_data: Summer22EE_22Sep2023_V4_DATA
+        jer: Summer22EE_22Sep2023_JRV2_MC
+        level: L1L2L3Res
+      2023_preBPix:
+        json_path: "${jets_calibration.path_to_JERC_PNetReg}Run3Summer23Prompt23/latest/regJet_jerc.json.gz"
+        jec_mc: Summer23Prompt23_V4_MC
+        jec_data: Summer23Prompt23_V4_DATA
+        jer: Summer23Prompt23_RunCv1234_JRV3_MC
+        level: L1L2L3Res
+      2023_postBPix:
+        json_path: "${jets_calibration.path_to_JERC_PNetReg}Run3Summer23BPixPrompt23/latest/regJet_jerc.json.gz"
+        jec_mc: Summer23BPixPrompt23_V4_MC
+        jec_data: Summer23BPixPrompt23_V4_DATA
+        jer: Summer23BPixPrompt23_RunD_JRV3_MC
+        level: L1L2L3Res
+      "2024":
+        json_path: "${jets_calibration.path_to_JERC_PNetReg}Run3Summer24Prompt24/latest/regJet_jerc.json.gz"
+        jec_mc: Summer24Prompt24_V5_MC
+        jec_data: Summer24Prompt24_V5_DATA
+        jer: Summer24Prompt24_JRV2_MC
+        level: L1L2L3Res
